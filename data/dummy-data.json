@@ -1,0 +1,138 @@
+{
+  "order": {
+    "order1": {
+      "userId": "u1",
+      "date": "2020-04-08T14:37:20.159Z",
+      "totalPrice": 300,
+      "cartItems": [
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Kari Ayam",
+          "menuPrice": 4.50,
+          "quantity": 1,
+          "sum": 4.50
+        }
+      ]
+    },
+    "orderHistory2": {
+      "userId": "u1",
+      "date": "2020-04-08T14:37:20.159Z",
+      "totalPrice": 200,
+      "cartItems": [
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        },
+        {
+          "menuTitle": "Nasi Lemak",
+          "menuPrice": 3.99,
+          "quantity": 1,
+          "sum": 3.99
+        }
+      ]
+    }
+  },
+  "menusItems": {
+    "m1": {
+      "title": "Nasi Lemak",
+      "imageUrl": "https://rasamalaysia.com/wp-content/uploads/2007/01/nasi_lemak-1-480x270.jpg",
+      "description": "Best Nasi Lemak",
+      "price": 3.99
+    },
+    "m2": {
+      "title": "Chicken Rice",
+      "imageUrl": "https://media.timeout.com/images/105397127/630/472/image.jpg",
+      "description": "Best Chicken Rice",
+      "price": 4.5
+    },
+    "m3": {
+      "title": "Pork Katsu Curry",
+      "imageUrl": "https://images.japancentre.com/recipes/pics/6/main/6-pork-katsu-curry.jpg",
+      "description": "Best Curry Rice",
+      "price": 5.00
+    },
+    "m4": {
+      "title": "Nasi Kandar",
+      "imageUrl": "https://cdn.kuali.com/wp-content/uploads/2015/05/nasi-kandar.jpg",
+      "description": "Best Nasi Kandar",
+      "price": 9.5
+    }
+  },
+  "menus": {
+    "mn1": {
+      "ownerId": "u1",
+      "dayOfMenu": "Sunday",
+      "menuItemIds": { "m1": true, "m2": true }
+    },
+    "mn3": {
+      "ownerId": "u1",
+      "dayOfMenu": "Monday",
+      "menuItemIds": { "m1": true, "m2": true }
+    },
+    "mn4": {
+      "ownerId": "u1",
+      "dayOfMenu": "Tuesday",
+      "menuItemIds": { "m3": true, "m4": true }
+    }
+  },
+  "customers": {
+    "u1" : {
+      "balance" : 100,
+      "name": "John Alexa Bin Mohammad",
+      "status": "Active"
+    },
+    "u2" : {
+      "balance" : 150,
+      "name": "Wilson Ting",
+      "status": "Active"
+    },
+    "u3" : {
+      "balance" : 50,
+      "name": "Oliver Ooi",
+      "status": "Active"
+    }
+  }
+}
