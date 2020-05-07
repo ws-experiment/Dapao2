@@ -28,14 +28,14 @@ const UserOverviewScreen = (props) => {
   return (
     <FlatList
       data={users}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.userId}
       renderItem={(itemData) => (
         <UserItem
           name={itemData.item.name}
           balance={itemData.item.balance}
           status={itemData.item.status}
           onSelectItem={() => {
-            props.navigation.navigate("addBalance", { id: itemData.item.id });
+            props.navigation.navigate("AddBalance", { id: itemData.item.userId });
           }}
         />
       )}
@@ -55,6 +55,16 @@ UserOverviewScreen.navigationOptions = (navData) => {
         />
       </HeaderButtons>
     ),
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item 
+          title="Add"
+          iconName={Platform.OS === "android" ? "md-add-circle-outline" : "ios-add-circle-outline"}
+          onPress={() => {
+            navData.navigation.navigate("Auth", { isSignup : true})
+          }}/>
+      </HeaderButtons>
+    )
   };
 };
 

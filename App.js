@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import ReduxThunk from 'redux-thunk';
+
 //DEVELOPMENT USE
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import MenuNavigator from "./navigation/MenuNavigator";
 
+import AuthReducer from './stores/reducers/AuthReducer';
 import MenuReducer from "./stores/reducers/MenusReducer";
 import CartReducer from './stores/reducers/CartReducer';
 import UserReducer from "./stores/reducers/UserReducer";
 import OrderReducer from "./stores/reducers/OrderReducer";
 
 const rootReducer = combineReducers({
+  auth: AuthReducer,
   menus: MenuReducer,
   cart: CartReducer,
   user: UserReducer,

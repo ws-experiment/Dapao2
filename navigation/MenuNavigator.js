@@ -9,6 +9,8 @@ import {
 import NavigationOptions from "../navigation/NavigationOptions";
 import { Ionicons } from "@expo/vector-icons";
 
+//Commons
+import AuthScreen from "../screens/AuthScreen";
 //Customers
 import MenuDetailsScreen from "../screens/customers/MenuDetailsScreen";
 import MenuOverviewScreen from "../screens/customers/MenuOverviewScreen";
@@ -19,8 +21,8 @@ import OwnerMenuScreen from "../screens/owners/OwnerMenuScreen";
 import OwnerMenuDetailsScreen from "../screens/owners/OwnerMenuDetailsScreen";
 import EditMenuScreen from "../screens/owners/EditMenuScreen";
 import UserOverviewScreen from "../screens/owners/UserOverviewScreen";
-import AddBalanceScreen from '../screens/owners/AddBalanceScreen';
-import OrdersScreen from '../screens/owners/OrdersScreen';
+import AddBalanceScreen from "../screens/owners/AddBalanceScreen";
+import OrdersScreen from "../screens/owners/OrdersScreen";
 
 import Colors from "../constants/Colors";
 
@@ -84,8 +86,9 @@ const CustomerDrawer = createDrawerNavigator(
 //#region Owners
 const UsersStack = createStackNavigator(
   {
-    userOverview: UserOverviewScreen,
-    addBalance : AddBalanceScreen
+    UserOverview: UserOverviewScreen,
+    AddBalance: AddBalanceScreen,
+    Auth: AuthScreen 
   },
   {
     navigationOptions: {
@@ -140,13 +143,22 @@ const CustomerOrderStack = createStackNavigator(
 );
 
 const OwnerDrawer = createDrawerNavigator({
-  //TEMP
   Orders: CustomerOrderStack,
   OwnerMenu: OwnerMenuStack,
   Users: UsersStack,
-  
-  Menu: MenuStack,
 });
 //#endregion Owners
 
+//#region Commons
+const AuthStack = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  {
+  defaultNavigationOptions: NavigationOptions,
+  }
+);
+//#endregion
+
 export default createAppContainer(OwnerDrawer);
+ 

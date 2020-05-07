@@ -1,18 +1,22 @@
 import * as DATA from "../../data/dummy-data.json";
 
+import * as userRepo from '../../database/userRepo';
+
 export const FETCH_USER = "FETCH_USER";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const RELOAD = "RELOAD";
 
 export const fetchUsers = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     try {
-      const usersData = [];
-      for(var key in DATA.customers){
-        const item = Object.assign(DATA.customers[key], {id: key});
-        usersData.push(item);
-      }
-      dispatch({ type: FETCH_USER, users: usersData });
+      
+      // for(var key in DATA.customers){
+      //   const item = Object.assign(DATA.customers[key], {id: key});
+      //   usersData.push(item);
+      // }
+      const customers = await userRepo.getUsers();
+      dispatch({ type: FETCH_USER, users: Object.values(customers)});
+
     } catch (err) {
       console.log(err);
     }
@@ -36,6 +40,7 @@ export const setCurrentUser = () => {
 export const reload = (id, addedAmount) => {
   return (dispatch) => {
     try {
+      userRepo.updateUserBalance(id, addedAmount);
       dispatch({ type: RELOAD, pid: id, amount: addedAmount });
     } catch (err) {
       console.log(err);

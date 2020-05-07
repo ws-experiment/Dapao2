@@ -50,7 +50,7 @@ export const addOrder = (cartItems, totalAmount) => {
   return async dispatch => {
     const date = moment(new Date()).format('MMM DD HH:mm');
     
-     orderRepo.postOrder(cartItems, date, totalAmount, "u1");
+    orderRepo.postOrder(cartItems, date, totalAmount, "u1");
 
     const orderData = {
       userId: "u1",

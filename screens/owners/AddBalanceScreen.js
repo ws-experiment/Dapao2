@@ -15,8 +15,9 @@ const AddBalanceScreen = (props) => {
   //#region states
   const selectedId = props.navigation.getParam("id");
   const user = useSelector((state) => state.user.users).find(
-    (x) => x.id === selectedId
+    (x) => x.userId === selectedId
   );
+  
   const [amount, setAmount] = useState(0);
   //#endregion
   
@@ -55,21 +56,18 @@ const AddBalanceScreen = (props) => {
             <ClearButton
               title="10"
               onPress={() => {
-                console.log("10");
                 setAmount(10);
               }}
             />
             <ClearButton
               title="20"
               onPress={() => {
-                console.log("20");
                 setAmount(20);
               }}
             />
             <ClearButton
               title="50"
               onPress={() => {
-                console.log("50");
                 setAmount(50);
               }}
             />

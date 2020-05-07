@@ -10,6 +10,7 @@ import {
   Button,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import ImagePicker from "../../components/commons/ImagePicker";
 import defaultStyles from "../../constants/defaultStyles";
 
 import Colors from "../../constants/Colors";
@@ -17,8 +18,7 @@ import Input from "../../components/commons/Input";
 import Card from "../../components/commons/Card";
 
 import * as menuActions from "../../stores/actions/MenusAction";
-import { formReducer } from "../../stores/reducers/common/FormReducer";
-import { FORM_INPUT_UPDATE } from "../../stores/reducers/common/FormReducer";
+import { formReducer, FORM_INPUT_UPDATE } from "../../stores/reducers/common/FormReducer";
 
 const EditMenuScreen = (props) => {
   //#region states
@@ -67,9 +67,15 @@ const EditMenuScreen = (props) => {
     [dispatchFormState]
   );
 
+  const imageTakenHandler = (imagePath) => {
+    inputChangeHandler("imageUrl", imagePath, true);
+  };
+
   const submitHandler = () => {
     if (!formState.formIsValid) {
-      Alert.alert("Please check the errors in the form", [{ text: "Okay" }]);
+      Alert.alert("Alert!", "Please check the errors in the form", [
+        { text: "Okay" },
+      ]);
       return;
     }
     setError(null);
@@ -85,8 +91,7 @@ const EditMenuScreen = (props) => {
             formState.inputValues.description
           )
         );
-      }
-      else{
+      } else {
         dispatch(
           menuActions.addMenu(
             formState.inputValues.title,
@@ -105,11 +110,16 @@ const EditMenuScreen = (props) => {
   };
 
   //#endregion handlers
+  
 
   return (
     <KeyboardAvoidingView behavior="padding">
       <ScrollView>
         <Card style={styles.form}>
+          <ImagePicker
+            onImageTaken={imageTakenHandler}
+            imageUrl={editedMenu ? editedMenu.imageUrl : ""}
+          />
           <Input
             id="title"
             label="Title"
@@ -122,7 +132,8 @@ const EditMenuScreen = (props) => {
             initiallyValid={!!editedMenu}
             required
           />
-          <Input
+
+          {/* <Input
             id="imageUrl"
             label="Image Url"
             errorText="Invalid field"
@@ -135,7 +146,7 @@ const EditMenuScreen = (props) => {
             initialValue={editedMenu ? editedMenu.imageUrl : ""}
             initiallyValid={!!editedMenu}
             required
-          />
+          /> */}
           {!editedMenu && (
             <Input
               id="price"
@@ -164,17 +175,30 @@ const EditMenuScreen = (props) => {
         {isLoading ? (
           <ActivityIndicator size="small" color={Colors.primary} />
         ) : (
-          <Button title="Submit" onPress={submitHandler} />
+          <View style={styles.button}>
+            <Button title="Submit" onPress={submitHandler} />
+          </View>
         )}
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
+EditMenuScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: `Edit Menu`,
+  };
+};
+
 const styles = StyleSheet.create({
   form: {
     margin: 10,
     padding: 15,
+  },
+  button: {
+    justifyContent: "center",
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
 
