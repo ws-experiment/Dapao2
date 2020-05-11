@@ -18,12 +18,20 @@ const UserOverviewScreen = (props) => {
     await dispatch(userAction.fetchUsers());
   }, [dispatch]);
 
+  //any updates in database will update the list after come back from other screens
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener("didFocus", loadUsers);
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadUsers]);
+
   useEffect(() => {
     setIsLoading(true);
     loadUsers().then(() => {
       setIsLoading(false);
     });
-  }, [loadUsers]);
+  }, [dispatch, loadUsers]);
 
   return (
     <FlatList
@@ -35,7 +43,9 @@ const UserOverviewScreen = (props) => {
           balance={itemData.item.balance}
           status={itemData.item.status}
           onSelectItem={() => {
-            props.navigation.navigate("AddBalance", { id: itemData.item.userId });
+            props.navigation.navigate("AddBalance", {
+              id: itemData.item.userId,
+            });
           }}
         />
       )}
@@ -57,14 +67,19 @@ UserOverviewScreen.navigationOptions = (navData) => {
     ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item 
+        <Item
           title="Add"
-          iconName={Platform.OS === "android" ? "md-add-circle-outline" : "ios-add-circle-outline"}
+          iconName={
+            Platform.OS === "android"
+              ? "md-add-circle-outline"
+              : "ios-add-circle-outline"
+          }
           onPress={() => {
-            navData.navigation.navigate("Auth", { isSignup : true})
-          }}/>
+            navData.navigation.navigate("Auth", { isSignup: true });
+          }}
+        />
       </HeaderButtons>
-    )
+    ),
   };
 };
 

@@ -18,7 +18,10 @@ import Input from "../../components/commons/Input";
 import Card from "../../components/commons/Card";
 
 import * as menuActions from "../../stores/actions/MenusAction";
-import { formReducer, FORM_INPUT_UPDATE } from "../../stores/reducers/common/FormReducer";
+import {
+  formReducer,
+  FORM_INPUT_UPDATE,
+} from "../../stores/reducers/common/FormReducer";
 
 const EditMenuScreen = (props) => {
   //#region states
@@ -28,7 +31,7 @@ const EditMenuScreen = (props) => {
     state.menus.ownerMenuItems.find((menu) => menu.id === menuId)
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+
   //#endregion states
   const dispatch = useDispatch();
 
@@ -72,15 +75,7 @@ const EditMenuScreen = (props) => {
   };
 
   const submitHandler = () => {
-    if (!formState.formIsValid) {
-      Alert.alert("Alert!", "Please check the errors in the form", [
-        { text: "Okay" },
-      ]);
-      return;
-    }
-    setError(null);
     setIsLoading(true);
-
     try {
       if (editedMenu) {
         dispatch(
@@ -106,14 +101,13 @@ const EditMenuScreen = (props) => {
     } catch (err) {
       console.log(err.message);
     }
-    setIsLoading(false);
   };
-
   //#endregion handlers
-  
 
   return (
-    <KeyboardAvoidingView behavior="padding">
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+    >
       <ScrollView>
         <Card style={styles.form}>
           <ImagePicker
@@ -132,21 +126,6 @@ const EditMenuScreen = (props) => {
             initiallyValid={!!editedMenu}
             required
           />
-
-          {/* <Input
-            id="imageUrl"
-            label="Image Url"
-            errorText="Invalid field"
-            keyBoardType="default"
-            autoCapitalize="sentences"
-            autoCorrect
-            multiline
-            numberOfLine={3}
-            onInputChange={inputChangeHandler}
-            initialValue={editedMenu ? editedMenu.imageUrl : ""}
-            initiallyValid={!!editedMenu}
-            required
-          /> */}
           {!editedMenu && (
             <Input
               id="price"

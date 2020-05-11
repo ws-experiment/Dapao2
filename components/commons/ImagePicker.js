@@ -6,7 +6,7 @@ import Colors from "../../constants/Colors";
 
 const ImgPicker = (props) => {
   const [pickedImage, setPickedImage] = useState(props.imageUrl);
-  
+
   const verifyPermission = async () => {
     const result = await Permissions.askAsync(
       Permissions.CAMERA_ROLL,
@@ -29,21 +29,31 @@ const ImgPicker = (props) => {
       aspect: [4, 3],
       quality: 0.5,
     });
+    
+    if (image.cancelled) {
+      return;
+    }
+
     setPickedImage(image.uri);
     props.onImageTaken(image.uri);
   };
 
   const galleryHandler = async () => {
     const hasPermission = await verifyPermission();
-    if(!hasPermission) {
-        return;
+    if (!hasPermission) {
+      return;
     }
     const image = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4,3],
-        quality: 0.5
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5,
     });
+
+    if (image.cancelled) {
+      return;
+    }
+
     setPickedImage(image.uri);
     props.onImageTaken(image.uri);
   };
@@ -66,7 +76,11 @@ const ImgPicker = (props) => {
           />
         </View>
         <View style={styles.button}>
-          <Button title="Gallery" color={Colors.primary} onPress={galleryHandler} />
+          <Button
+            title="Gallery"
+            color={Colors.primary}
+            onPress={galleryHandler}
+          />
         </View>
       </View>
     </View>

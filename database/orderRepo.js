@@ -1,5 +1,5 @@
 
-export const postOrder = async (cartItems, date, totalAmount, userId) => {
+export const postOrder = async (cartItems, date, totalAmount, userId, userName) => {
   try {
     const response = await fetch(
         `https://dapao2.firebaseio.com/orders.json`,
@@ -12,7 +12,8 @@ export const postOrder = async (cartItems, date, totalAmount, userId) => {
             cartItems,
             date,
             totalPrice: totalAmount,
-            userId
+            userId,
+            name: userName
           }),
         }
       );

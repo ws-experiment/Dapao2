@@ -1,13 +1,22 @@
-import React from "react";
-import { Platform } from "react-native";
-import { createAppContainer } from "react-navigation";
+import React, { useRef } from "react";
+import { Platform, SafeAreaView, View } from "react-native";
+import {
+  createAppContainer,
+  NavigationActions,
+  StackActions,
+} from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from "react-navigation-drawer";
-import NavigationOptions from "../navigation/NavigationOptions";
+import { useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
+import * as authActions from "../stores/actions/AuthAction";
+
+import NavigationOptions from "../navigation/NavigationOptions";
+import Colors from "../constants/Colors";
+import LogoutButton from "../components/commons/LogoutButton";
 
 //Commons
 import AuthScreen from "../screens/AuthScreen";
@@ -23,8 +32,6 @@ import EditMenuScreen from "../screens/owners/EditMenuScreen";
 import UserOverviewScreen from "../screens/owners/UserOverviewScreen";
 import AddBalanceScreen from "../screens/owners/AddBalanceScreen";
 import OrdersScreen from "../screens/owners/OrdersScreen";
-
-import Colors from "../constants/Colors";
 
 //#region Customers
 const MenuStack = createStackNavigator(
@@ -79,6 +86,29 @@ const CustomerDrawer = createDrawerNavigator(
     contentOptions: {
       activeTintColor: Colors.primary,
     },
+    contentComponent: (props) => {
+      const dispatch = useDispatch();
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
+            <DrawerNavigatorItems {...props} />
+            <LogoutButton
+              onPress={() => {
+                dispatch(authActions.logout());
+                props.navigation.dispatch(
+                  StackActions.reset({
+                    index: 0,
+                    actions: [
+                      NavigationActions.navigate({ routeName: "Auth" }),
+                    ],
+                  })
+                );
+              }}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    },
   }
 );
 //#endregion Customers
@@ -88,7 +118,7 @@ const UsersStack = createStackNavigator(
   {
     UserOverview: UserOverviewScreen,
     AddBalance: AddBalanceScreen,
-    Auth: AuthScreen 
+    Auth: AuthScreen,
   },
   {
     navigationOptions: {
@@ -142,23 +172,52 @@ const CustomerOrderStack = createStackNavigator(
   }
 );
 
-const OwnerDrawer = createDrawerNavigator({
-  Orders: CustomerOrderStack,
-  OwnerMenu: OwnerMenuStack,
-  Users: UsersStack,
-});
+const OwnerDrawer = createDrawerNavigator(
+  {
+    Orders: CustomerOrderStack,
+    OwnerMenu: OwnerMenuStack,
+    Users: UsersStack,
+  },
+  {
+    contentOptions: {
+      activeTintColor: Colors.primary,
+    },
+    contentComponent: (props) => {
+      const dispatch = useDispatch();
+      return (
+        <View style={{ flex: 1, paddingTop: 20 }}>
+          <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
+            <DrawerNavigatorItems {...props} />
+            <LogoutButton
+              onPress={() => {
+                dispatch(authActions.logout());
+                props.navigation.dispatch(
+                  StackActions.reset({
+                    index: 0,
+                    actions: [
+                      NavigationActions.navigate({ routeName: "Auth" }),
+                    ],
+                  })
+                );
+              }}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    },
+  }
+);
 //#endregion Owners
 
 //#region Commons
-const AuthStack = createStackNavigator(
-  {
-    Auth: AuthScreen,
+const AuthStack = createStackNavigator({
+  Auth: { screen: AuthScreen, navigationOptions: NavigationOptions },
+  Owner: { screen: OwnerDrawer, navigationOptions: { headerShown: false } },
+  Customer: {
+    screen: CustomerDrawer,
+    navigationOptions: { headerShown: false },
   },
-  {
-  defaultNavigationOptions: NavigationOptions,
-  }
-);
+});
 //#endregion
 
-export default createAppContainer(OwnerDrawer);
- 
+export default createAppContainer(AuthStack);

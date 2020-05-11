@@ -24,7 +24,7 @@ const OrderHistoryScreen = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    dispatch(orderActions.fetchOrder())
+    dispatch(orderActions.fetchPastOrders())
       .then(() => {
         setIsLoading(false);
       })

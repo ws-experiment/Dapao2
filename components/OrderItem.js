@@ -18,16 +18,11 @@ const OrderItem = (props) => {
               name={Platform.OS === "android" ? "md-people" : "ios-people"}
               size={23}
               color={Colors.accent}
+              style={{marginRight: 10}}
             />
             <RegText style={styles.userNameText}>{props.name} </RegText>
           </View>
         )}
-        <View style={styles.summaryDetails}>
-          <RegText style={styles.dateTimeText}>{props.date}</RegText>
-          <BoldText style={styles.totalPriceText}>
-            Total RM {props.totalPrice.toFixed(2)}
-          </BoldText>
-        </View>
         <View style={styles.item}>
           {props.cartItem.map((cartItem, index) => (
             <CartItem
@@ -38,6 +33,12 @@ const OrderItem = (props) => {
               sum={cartItem.sum}
             />
           ))}
+        </View>
+        <View style={styles.summaryDetails}>
+          <RegText style={styles.dateTimeText}>{props.date}</RegText>
+          <BoldText style={styles.totalPriceText}>
+            Total RM {props.totalPrice.toFixed(2)}
+          </BoldText>
         </View>
       </View>
     </Card>
@@ -58,8 +59,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   userNameContainer: {
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: 'center',
+    padding: 10
   },
   userNameText: {
     fontSize: 20,

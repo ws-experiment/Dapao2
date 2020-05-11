@@ -55,6 +55,7 @@ const OrdersScreen = (props) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={(itemData) => (
           <OrderItem
+            name={itemData.item.name}
             key={itemData.item.id}
             totalPrice={itemData.item.totalPrice}
             date={itemData.item.date}

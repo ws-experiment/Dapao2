@@ -21,6 +21,7 @@ import CartItem from "../../components/CartItem";
 
 import * as cartActions from "../../stores/actions/CartAction";
 import * as orderActions from "../../stores/actions/OrderAction";
+import * as userActions from '../../stores/actions/UserAction';
 
 const CartScreen = (props) => {
   //#region states
@@ -28,18 +29,10 @@ const CartScreen = (props) => {
   const totalPrice = useSelector((state) => state.cart.totalAmount);
   const currentUser = useSelector((state) => state.user.currentUser);
   const [isLoading, setIsLoading] = useState(false);
+ 
   //#endregion states
 
   const dispatch = useDispatch();
-  // const loadCurrentUser = useCallback(async () => {
-  //   await dispatch(userActions.setCurrentUser);
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   loadCurrentUser();
-  //   setIsLoading(false);
-  // }, [currentUser]);
 
   //#region handlers
   const sendOrderHandler = () => {
@@ -51,7 +44,8 @@ const CartScreen = (props) => {
       );
       return;
     }
-    dispatch(orderActions.addOrder(cartItems, totalPrice));
+    dispatch(orderActions.addOrder(cartItems, totalPrice, currentUser.name));
+    dispatch(userActions.deductBalance(totalPrice));
     props.navigation.goBack();
   };
   //#endregion handlers
@@ -97,7 +91,9 @@ const CartScreen = (props) => {
               size={26}
               style={{ marginLeft: 10 }}
             />
-            <BoldText style={styles.balance}>RM {currentUser.balance.toFixed(2)}</BoldText>
+            <BoldText style={styles.balance}>
+              RM {currentUser.balance.toFixed(2)}
+            </BoldText>
           </Card>
         </View>
       )}

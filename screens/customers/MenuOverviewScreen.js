@@ -55,23 +55,19 @@ const MenuOverviewScreen = (props) => {
   }, [dispatch, setIsRefreshing, weekday]);
   //#endregion callbacks
 
-  //Called only after the willfocus event is fired.
-  // useEffect(() => {
-  //   const willFocusSub = props.navigation.addListener(
-  //     "willFocus",
-  //     loadProducts
-  //   );
-  //   return () => {
-  //     willFocusSub.remove();
-  //   };
-  // }, [loadProducts]);
-
- // Fetch for the first time when the screen is firstly rendered
+  //Called only after the event.
   useEffect(() => {
-    setIsLoading(true);
-    loadProducts().then(() => {
-      setIsLoading(false);
-    });
+    const willFocusSub = props.navigation.addListener("didFocus", loadProducts);
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadProducts]);
+
+  // Fetch for the first time when the screen is firstly rendered
+  useEffect(() => {
+    //setIsLoading(true);
+    loadProducts();
+    // setIsLoading(false);
   }, [dispatch, loadProducts]);
 
   useEffect(() => {
@@ -104,8 +100,8 @@ const MenuOverviewScreen = (props) => {
     <View>
       <FlatList
         data={menuItemsOfTheDay}
-        refreshing={isRefreshing}
-        onRefresh={loadProducts}
+        // refreshing={isRefreshing}
+        // onRefresh={loadProducts}
         renderItem={(itemData) => (
           <MenuItem
             imageSource={itemData.item.imageUrl}

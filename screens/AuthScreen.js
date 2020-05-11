@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useCallback } from "react";
+import React, { useState, useReducer, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -8,7 +8,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Card from "../components/commons/Card";
 import Input from "../components/commons/Input";
@@ -24,6 +24,7 @@ import RegText from "../components/commons/RegText";
 
 const AuthScreen = (props) => {
   const newUser = props.navigation.getParam("isSignup");
+  const currentUser = useSelector((state) => state.user.currentUser);
   //#region states
   const [isSignUp, setIsSignUp] = useState(newUser ? true : false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +54,21 @@ const AuthScreen = (props) => {
   );
   //#endregion localReducer
 
+  useEffect(() => {
+    //Navigate after login
+    if (
+      Object.entries(currentUser).length !== 0 &&
+      currentUser.constructor === Object
+    ) {
+      if (currentUser.userType === "Customer") {
+        props.navigation.navigate("Customer");
+      } else {
+        props.navigation.navigate("Owner");
+      }
+      setIsLoading(false);
+    }
+  }, [currentUser]);
+
   //#region handlers
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, inputValidity) => {
@@ -66,10 +82,21 @@ const AuthScreen = (props) => {
     [dispatchFormState]
   );
 
-  const authHandler = async () => {};
+  const authHandler = async () => {
+    let action = authActions.login(
+      formState.inputValues.email,
+      formState.inputValues.password
+    );
+    setIsLoading(true);
+    try {
+      await dispatch(action);
+    } catch (err) {
+      Alert.alert(err.message);
+    }
+  };
 
-  const signUpHandler = async () => {
-    let action = authActions.signUp(
+  const registerUserHandler = async () => {
+    let action = authActions.registerNewUser(
       formState.inputValues.email,
       formState.inputValues.password,
       formState.inputValues.name
@@ -81,8 +108,9 @@ const AuthScreen = (props) => {
       props.navigation.navigate("UserOverview");
     } catch (err) {
       Alert.alert(err.message);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
   //#endregion handlers
 
@@ -152,7 +180,7 @@ const AuthScreen = (props) => {
             title={isSignUp ? "Sign up" : "Login"}
             color={Colors.primary}
             disabled={formState.formIsValid ? false : true}
-            onPress={isSignUp ? signUpHandler : authHandler}
+            onPress={isSignUp ? registerUserHandler : authHandler}
           />
         )}
       </View>
@@ -173,7 +201,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 30,
     alignItems: "center",
   },
   authContainer: {

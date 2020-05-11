@@ -25,7 +25,7 @@ const AddBalanceScreen = (props) => {
 
   const submitHandler = () => {
     dispatch(userActions.reload(selectedId, +amount));
-    props.navigation.popToTop();
+    props.navigation.navigate("UserOverview");
   };
 
   return (
