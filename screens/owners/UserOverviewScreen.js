@@ -1,5 +1,11 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { View, ActivityIndicator, StyleSheet, Platform, FlatList } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  StyleSheet,
+  Platform,
+  FlatList,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +13,7 @@ import UserItem from "../../components/UserItem";
 
 import * as userAction from "../../stores/actions/UserAction";
 import defaultStyles from "../../constants/defaultStyles";
+import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const UserOverviewScreen = (props) => {
   //#region states
@@ -17,7 +24,7 @@ const UserOverviewScreen = (props) => {
 
   const loadUsers = useCallback(async () => {
     setIsLoading(true);
-    await dispatch(userAction.fetchUsers()).then(()=>{
+    await dispatch(userAction.fetchUsers()).then(() => {
       setIsLoading(false);
     });
   }, [dispatch]);
@@ -66,13 +73,7 @@ UserOverviewScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Users' List",
     headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => navData.navigation.toggleDrawer()}
-        />
-      </HeaderButtons>
+      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
     ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

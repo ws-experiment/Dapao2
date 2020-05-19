@@ -13,6 +13,7 @@ import OrderItem from "../../components/OrderItem";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import * as orderActions from "../../stores/actions/OrderAction";
 import defaultStyles from "../../constants/defaultStyles";
+import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const OrderHistoryScreen = (props) => {
   //#region states
@@ -67,27 +68,19 @@ const OrderHistoryScreen = (props) => {
   );
 };
 
-OrderHistoryScreen.navigationOptions = navData => {
+OrderHistoryScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Past Order",
     headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
+      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
     ),
-  }
+  };
 };
 
 const styles = StyleSheet.create({
   overall: {
-    marginTop: 15
-  }
+    marginTop: 15,
+  },
 });
 
 export default OrderHistoryScreen;

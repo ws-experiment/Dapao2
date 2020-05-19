@@ -16,6 +16,7 @@ import defaultStyles from "../../constants/defaultStyles";
 import * as offDayActions from "../../stores/actions/OffDayAction";
 import Colors from "../../constants/Colors";
 import ClearButton from "../../components/commons/ClearButton";
+import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const OffDayScreen = (props) => {
   //#region states
@@ -85,15 +86,7 @@ OffDayScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Restrain Order's Days",
     headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
+      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
     ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>

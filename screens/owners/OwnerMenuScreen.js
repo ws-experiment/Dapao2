@@ -12,6 +12,7 @@ import {
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
+import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const OwnerMenuScreen = (props) => {
   //#region states
@@ -33,7 +34,9 @@ const OwnerMenuScreen = (props) => {
       <View style={styles.container}>
         <TouchableOpacity
           onPress={() => {
-            props.navigation.navigate("OwnerMenuDetails", {day: itemData.item})
+            props.navigation.navigate("OwnerMenuDetails", {
+              day: itemData.item,
+            });
           }}
         >
           <ImageBackground
@@ -65,15 +68,7 @@ OwnerMenuScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Select You Day",
     headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
+      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
     ),
   };
 };

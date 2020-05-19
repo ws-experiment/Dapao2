@@ -22,6 +22,7 @@ import LogoutButton from "../components/commons/LogoutButton";
 //Commons
 import StartupScreen from "../screens/StartupScreen";
 import AuthScreen from "../screens/AuthScreen";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 //Customers
 import MenuDetailsScreen from "../screens/customers/MenuDetailsScreen";
 import MenuOverviewScreen from "../screens/customers/MenuOverviewScreen";
@@ -35,6 +36,28 @@ import UserOverviewScreen from "../screens/owners/UserOverviewScreen";
 import AddBalanceScreen from "../screens/owners/AddBalanceScreen";
 import OrdersScreen from "../screens/owners/OrdersScreen";
 import OffDayScreen from "../screens/owners/OffDayScreen";
+
+const SettingsStack = createStackNavigator(
+  {
+    ResetPassword: ResetPasswordScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={
+            Platform.OS === "android"
+              ? "md-settings"
+              : "ios-settings"
+          }
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
+    },
+    defaultNavigationOptions: NavigationOptions,
+  }
+);
 
 //#region Customers
 const MenuStack = createStackNavigator(
@@ -84,6 +107,12 @@ const CustomerDrawer = createDrawerNavigator(
         drawerLabel: "My Past Order",
       },
     },
+    Setting: {
+      screen: SettingsStack,
+      navigationOptions: {
+        drawerLabel: "Settings"
+      }
+    }
   },
   {
     contentOptions: {
@@ -200,9 +229,25 @@ const OffDayStack = createStackNavigator(
 const OwnerDrawer = createDrawerNavigator(
   {
     Orders: CustomerOrderStack,
-    OwnerMenu: OwnerMenuStack,
-    Users: UsersStack,
-    OffDay: OffDayStack,
+    OwnerMenu: { 
+      screen: OwnerMenuStack,
+      navigationOptions: {
+        drawerLabel: "My Menu List"
+      }
+    },
+    Users: {
+      screen: UsersStack,
+      navigationOptions: {
+        drawerLabel: "Users List "
+      }
+    },
+    OffDay: {
+      screen: OffDayStack,
+      navigationOptions: {
+        drawerLabel: "My Off Days "
+      }
+    },
+    Setting: SettingsStack,
   },
   {
     contentOptions: {
@@ -244,10 +289,10 @@ const AuthStack = createStackNavigator(
 );
 
 const MainStack = createStackNavigator({
-  Startup : StartupScreen,
+  Startup: StartupScreen,
   Auth: {
     screen: AuthStack,
-    navigationOptions: {headerShown: false, gestureEnabled : false},
+    navigationOptions: { headerShown: false, gestureEnabled: false },
   },
   Owner: {
     screen: OwnerDrawer,

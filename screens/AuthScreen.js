@@ -146,7 +146,6 @@ const AuthScreen = (props) => {
             secureTextEntry
             required
             minLength={5}
-            authContainer="none"
             errorText="Invalid password"
             autoCapitalize="none"
             onInputChange={inputChangeHandler}
@@ -157,7 +156,6 @@ const AuthScreen = (props) => {
               label="Confirm Password"
               secureTextEntry
               required
-              authContainer="none"
               errorText="Password does not match"
               password
               primaryPassword={formState.inputValues.password}

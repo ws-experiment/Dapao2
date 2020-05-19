@@ -13,6 +13,7 @@ import OrderItem from "../../components/OrderItem";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import * as orderActions from "../../stores/actions/OrderAction";
 import defaultStyles from "../../constants/defaultStyles";
+import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const OrdersScreen = (props) => {
   //#region states
@@ -71,15 +72,7 @@ OrdersScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Orders Today",
     headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
+      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
     ),
   };
 };

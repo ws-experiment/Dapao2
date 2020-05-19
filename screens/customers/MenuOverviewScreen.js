@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
-  Button,
   ActivityIndicator,
   Platform,
-  Alert,
 } from "react-native";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,22 +13,20 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import MenuItem from "../../components/MenuItem";
 import ClearButton from "../../components/commons/ClearButton";
 import RegText from "../../components/commons/RegText";
-import BoldText from "../../components/commons/BoldText";
 
 import * as menuActions from "../../stores/actions/MenusAction";
 import * as cartActions from "../../stores/actions/CartAction";
 
-import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import CustomHeaderIcon from "../../components/commons/CustomHeaderIcon";
 import Colors from "../../constants/Colors";
 import defaultStyles from "../../constants/defaultStyles";
-import BorderlessButton from "../../components/commons/BorderlessButton";
+import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const MenuOverviewScreen = (props) => {
   //#region states
-  const [weekday, setWeekday] = useState(moment(new Date()).format("dddd"));
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [weekday] = useState(moment(new Date()).format("dddd"));
+  const [, setIsRefreshing] = useState(false);
+  const [isLoading] = useState(false);
 
   const menuItemsOfTheDay = useSelector(
     (state) => state.menus.menuItemsOfTheDay
@@ -131,15 +126,7 @@ MenuOverviewScreen.navigationOptions = (navData) => {
   return {
     headerTitle: `Menu of ${navData.navigation.getParam("weekday")}`,
     headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item
-          title="menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
-          onPress={() => {
-            navData.navigation.toggleDrawer();
-          }}
-        />
-      </HeaderButtons>
+      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
     ),
     headerRight: () => (
       <HeaderButtons>
