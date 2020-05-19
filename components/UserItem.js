@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   activeContainer: {
-    width: "10%",
+    width: "15%",
     justifyContent: "flex-end",
     alignItems: "flex-end",
   },

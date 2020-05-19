@@ -7,21 +7,22 @@ import ReduxThunk from 'redux-thunk';
 
 //DEVELOPMENT USE
 import { composeWithDevTools } from 'redux-devtools-extension';
-
-import MenuNavigator from "./navigation/MenuNavigator";
+import NavigationContainer from './navigation/NavigationContainer';
 
 import AuthReducer from './stores/reducers/AuthReducer';
 import MenuReducer from "./stores/reducers/MenusReducer";
 import CartReducer from './stores/reducers/CartReducer';
 import UserReducer from "./stores/reducers/UserReducer";
 import OrderReducer from "./stores/reducers/OrderReducer";
+import OffDayReducer from './stores/reducers/OffDayReducer';
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
   menus: MenuReducer,
   cart: CartReducer,
   user: UserReducer,
-  orders: OrderReducer
+  orders: OrderReducer,
+  offDay: OffDayReducer
 });
 
 //DEVELOPMENT USE
@@ -50,7 +51,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <MenuNavigator />
+      <NavigationContainer />
     </Provider>
   );
 }

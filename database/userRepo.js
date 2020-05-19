@@ -1,6 +1,6 @@
-export const postUser = async (balance, name, status, userType, userId) => {
+export const postUser = async (balance, name, status, userType, userId, token) => {
   try {
-    const response = await fetch(`https://dapao2.firebaseio.com/users.json`, {
+    const response = await fetch(`https://dapao2.firebaseio.com/users.json?auth=${token}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,18 +25,21 @@ export const postUser = async (balance, name, status, userType, userId) => {
   }
 };
 
-export const updateUserBalance = async (userId, total, isReload = true) => {
+export const updateUserBalance = async (userId, total, token, isReload = true) => {
   try {
+
     const fetchResponse = await fetch(
       `https://dapao2.firebaseio.com/users.json?orderBy="userId"&equalTo=\"${userId}\"`
     );
     const resData = await fetchResponse.json();
+    
     const key = Object.keys(resData)[0];
     const currentBalance = resData[key].balance;
     
     const finalBalance = isReload ? currentBalance + total : currentBalance - total;
+    console.log("updateUserBalance",  `https://dapao2.firebaseio.com/users/${key}.json?auth=${token}`);
     const response = await fetch(
-      `https://dapao2.firebaseio.com/users/${key}.json`,
+      `https://dapao2.firebaseio.com/users/${key}.json?auth=${token}`,
       {
         method: "PATCH",
         header: {
@@ -47,7 +50,7 @@ export const updateUserBalance = async (userId, total, isReload = true) => {
         }),
       }
     );
-
+      console.log("updateUserBalance", response);
     if (!response.ok) {
       throw new Error(`Error on Firebase operation: ${response}`);
     }

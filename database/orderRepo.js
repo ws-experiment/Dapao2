@@ -1,8 +1,8 @@
 
-export const postOrder = async (cartItems, date, totalAmount, userId, userName) => {
+export const postOrder = async (cartItems, date, totalAmount, userId, userName, token) => {
   try {
     const response = await fetch(
-        `https://dapao2.firebaseio.com/orders.json`,
+        `https://dapao2.firebaseio.com/orders.json?auth=${token}`,
         {
           method: "POST",
           headers: {

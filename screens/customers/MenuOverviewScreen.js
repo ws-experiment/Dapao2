@@ -30,13 +30,12 @@ import BorderlessButton from "../../components/commons/BorderlessButton";
 const MenuOverviewScreen = (props) => {
   //#region states
   const [weekday, setWeekday] = useState(moment(new Date()).format("dddd"));
-
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const menuItemsOfTheDay = useSelector(
     (state) => state.menus.menuItemsOfTheDay
   );
-
   const count = useSelector((state) => state.cart.totalItems);
   //#endregion states
 
@@ -50,8 +49,9 @@ const MenuOverviewScreen = (props) => {
 
   const loadProducts = useCallback(async () => {
     setIsRefreshing(true);
-    await dispatch(menuActions.fetchMenuOfTheDay(weekday));
-    setIsRefreshing(false);
+    await dispatch(menuActions.fetchMenuOfTheDay(weekday)).then(() => {
+      setIsRefreshing(false);
+    });
   }, [dispatch, setIsRefreshing, weekday]);
   //#endregion callbacks
 
@@ -109,13 +109,15 @@ const MenuOverviewScreen = (props) => {
             price={itemData.item.price}
             onPress={() => selectHandler(itemData.item.id, itemData.item.title)}
           >
-            <BorderlessButton
-              title="TO CART"
-              style={styles.toCartText}
-              onPress={() => {
-                dispatch(cartActions.addCart(itemData.item));
-              }}
-            />
+            <View style={styles.buttonContainer}>
+              <ClearButton
+                title="TO CART"
+                style={styles.toCartText}
+                onPress={() => {
+                  dispatch(cartActions.addCart(itemData.item));
+                }}
+              />
+            </View>
           </MenuItem>
         )}
         keyExtractor={(item) => item.id}
@@ -159,6 +161,10 @@ MenuOverviewScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   toCartText: {
     fontSize: 16,
+  },
+  buttonContainer: {
+    paddingHorizontal: 20,
+    justifyContent: "center",
   },
 });
 

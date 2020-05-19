@@ -19,6 +19,7 @@ import RegText from "../../components/commons/RegText";
 import MenuItem from "../../components/MenuItem";
 import BorderlessButton from "../../components/commons/BorderlessButton";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
+import ClearButton from "../../components/commons/ClearButton";
 
 const OwnerMenuDetailsScreen = (props) => {
   //#region states
@@ -99,20 +100,23 @@ const OwnerMenuDetailsScreen = (props) => {
           price={itemData.item.price}
           disabled={true}
         >
-          <BorderlessButton
-            title="Delete"
-            style={styles.deleteButton}
-            onPress={() => {
-              deleteMenuHandler(itemData.item.id);
-            }}
-          />
-          <BorderlessButton
-            title="Edit"
-            style={styles.editButton}
-            onPress={() => {
-              editMenuHandler(itemData.item.id);
-            }}
-          />
+          <View style={styles.buttonContainer}>
+            <ClearButton
+              title="Edit"
+              style={styles.editButton}
+              onPress={() => {
+                editMenuHandler(itemData.item.id);
+              }}
+            />
+            <ClearButton
+              title="Delete"
+              danger
+              style={styles.deleteButton}
+              onPress={() => {
+                deleteMenuHandler(itemData.item.id);
+              }}
+            />
+          </View>
         </MenuItem>
       )}
     />
@@ -151,6 +155,11 @@ const styles = StyleSheet.create({
   },
   noMenuButton: {
     margin: 5,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
   },
   editButton: {
     color: Colors.accent,

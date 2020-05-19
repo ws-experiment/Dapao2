@@ -73,23 +73,25 @@ const AddBalanceScreen = (props) => {
             />
           </View>
         </Card>
-      </View>
-      <View style={styles.submit}>
-        <Button title="Submit" color={Colors.primary} onPress={submitHandler} />
+        <ClearButton title="Submit" color={Colors.primary} onPress={submitHandler} />
       </View>
     </View>
   );
 };
 
+AddBalanceScreen.navigationOptions = () => {
+  return {
+    headerTitle: "Reload"
+  }
+};
+
 const styles = StyleSheet.create({
   overall: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "space-between",
     margin: 15,
   },
   container: {
-    height: "50%",
+    height: "40%",
   },
   userBalanceContainer: {
     height: "20%",
@@ -99,9 +101,9 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   reloadAmountContainer: {
-    height: "50%",
     flexDirection: "column",
     padding: 10,
+    marginBottom: 25
   },
   balanceText: {
     fontSize: 18,
@@ -132,9 +134,6 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "space-around",
     alignItems: "center",
-  },
-  submit: {
-    height: "10%",
   },
 });
 

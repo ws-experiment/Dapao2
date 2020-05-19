@@ -4,6 +4,7 @@ import {
   createAppContainer,
   NavigationActions,
   StackActions,
+  createSwitchNavigator,
 } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import {
@@ -19,6 +20,7 @@ import Colors from "../constants/Colors";
 import LogoutButton from "../components/commons/LogoutButton";
 
 //Commons
+import StartupScreen from "../screens/StartupScreen";
 import AuthScreen from "../screens/AuthScreen";
 //Customers
 import MenuDetailsScreen from "../screens/customers/MenuDetailsScreen";
@@ -32,6 +34,7 @@ import EditMenuScreen from "../screens/owners/EditMenuScreen";
 import UserOverviewScreen from "../screens/owners/UserOverviewScreen";
 import AddBalanceScreen from "../screens/owners/AddBalanceScreen";
 import OrdersScreen from "../screens/owners/OrdersScreen";
+import OffDayScreen from "../screens/owners/OffDayScreen";
 
 //#region Customers
 const MenuStack = createStackNavigator(
@@ -172,11 +175,34 @@ const CustomerOrderStack = createStackNavigator(
   }
 );
 
+const OffDayStack = createStackNavigator(
+  {
+    OffDay: OffDayScreen,
+  },
+  {
+    navigationOptions: {
+      drawerIcon: (drawerConfig) => (
+        <Ionicons
+          name={
+            Platform.OS === "android"
+              ? "md-remove-circle-outline"
+              : "ios-remove-circle-outline"
+          }
+          size={23}
+          color={drawerConfig.tintColor}
+        />
+      ),
+    },
+    defaultNavigationOptions: NavigationOptions,
+  }
+);
+
 const OwnerDrawer = createDrawerNavigator(
   {
     Orders: CustomerOrderStack,
     OwnerMenu: OwnerMenuStack,
     Users: UsersStack,
+    OffDay: OffDayStack,
   },
   {
     contentOptions: {
@@ -210,14 +236,28 @@ const OwnerDrawer = createDrawerNavigator(
 //#endregion Owners
 
 //#region Commons
-const AuthStack = createStackNavigator({
-  Auth: { screen: AuthScreen, navigationOptions: NavigationOptions },
-  Owner: { screen: OwnerDrawer, navigationOptions: { headerShown: false } },
+const AuthStack = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  { defaultNavigationOptions: NavigationOptions }
+);
+
+const MainStack = createStackNavigator({
+  Startup : StartupScreen,
+  Auth: {
+    screen: AuthStack,
+    navigationOptions: {headerShown: false, gestureEnabled : false},
+  },
+  Owner: {
+    screen: OwnerDrawer,
+    navigationOptions: { headerShown: false, gestureEnabled: false },
+  },
   Customer: {
     screen: CustomerDrawer,
-    navigationOptions: { headerShown: false },
+    navigationOptions: { headerShown: false, gestureEnabled: false },
   },
 });
 //#endregion
 
-export default createAppContainer(AuthStack);
+export default createAppContainer(MainStack);

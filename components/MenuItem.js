@@ -19,7 +19,7 @@ const MenuItem = (props) => {
               RM {props.price.toFixed(2)}
             </RegText>
           </View>
-          <View style={styles.buttonContainer}>{props.children}</View>
+          {props.children}
         </View>
       </TouchableOpacity>
     </Card>
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   card: {
-    height: 260,
+    height: 340,
     margin: 20,
   },
   image: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     height: "65%",
   },
   details: {
-    height: "15%",
+    height: "20%",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    
   },
 });
 

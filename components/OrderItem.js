@@ -1,6 +1,7 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import moment from "moment";
 
 import Card from "./commons/Card";
 import BoldText from "./commons/BoldText";
@@ -9,6 +10,8 @@ import Colors from "../constants/Colors";
 import CartItem from "./CartItem";
 
 const OrderItem = (props) => {
+  const sameDate =
+    moment(new Date(), "MMM DD").format("MMM DD") === moment(props.date, "MMM DD").format("MMM DD");
   return (
     <Card style={styles.orderItem}>
       <View style={styles.summaryContainer}>
@@ -18,7 +21,7 @@ const OrderItem = (props) => {
               name={Platform.OS === "android" ? "md-people" : "ios-people"}
               size={23}
               color={Colors.accent}
-              style={{marginRight: 10}}
+              style={{ marginRight: 10 }}
             />
             <RegText style={styles.userNameText}>{props.name} </RegText>
           </View>
@@ -34,7 +37,9 @@ const OrderItem = (props) => {
             />
           ))}
         </View>
-        <View style={styles.summaryDetails}>
+        <View
+          style={sameDate ? styles.todaySummaryDetails : styles.summaryDetails}
+        >
           <RegText style={styles.dateTimeText}>{props.date}</RegText>
           <BoldText style={styles.totalPriceText}>
             Total RM {props.totalPrice.toFixed(2)}
@@ -51,7 +56,7 @@ const styles = StyleSheet.create({
     margin: 20,
     flexDirection: "row",
     alignItems: "center",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   summaryContainer: {
     flexDirection: "column",
@@ -62,8 +67,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: 'center',
-    padding: 10
+    alignItems: "center",
+    padding: 10,
   },
   userNameText: {
     fontSize: 20,
@@ -75,19 +80,28 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "100%",
     height: 50,
-    backgroundColor: Colors.primary
+    backgroundColor: Colors.primary,
+  },
+  todaySummaryDetails: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: "100%",
+    height: 50,
+    backgroundColor: Colors.accent,
   },
   totalPriceText: {
     fontSize: 18,
-    color: "white"
+    color: "white",
   },
   dateTimeText: {
     color: Colors.primary,
     fontSize: 16,
-    color: "white"
+    color: "white",
   },
   item: {
-    width: "100%"
+    width: "100%",
   },
 });
 

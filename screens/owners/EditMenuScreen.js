@@ -16,12 +16,14 @@ import defaultStyles from "../../constants/defaultStyles";
 import Colors from "../../constants/Colors";
 import Input from "../../components/commons/Input";
 import Card from "../../components/commons/Card";
+import ClearButton from "../../components/commons/ClearButton";
 
 import * as menuActions from "../../stores/actions/MenusAction";
 import {
   formReducer,
   FORM_INPUT_UPDATE,
 } from "../../stores/reducers/common/FormReducer";
+
 
 const EditMenuScreen = (props) => {
   //#region states
@@ -107,6 +109,8 @@ const EditMenuScreen = (props) => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
+      behavior="padding"
+      keyboardVerticalOffset={120}
     >
       <ScrollView>
         <Card style={styles.form}>
@@ -118,7 +122,7 @@ const EditMenuScreen = (props) => {
             id="title"
             label="Title"
             errorText="Invalid field"
-            keyBoardType="default"
+            keyboardType="default"
             autoCapitalize="sentences"
             autoCorrect
             onInputChange={inputChangeHandler}
@@ -131,7 +135,7 @@ const EditMenuScreen = (props) => {
               id="price"
               label="Price"
               errorText="Invalid field"
-              keyBoardType="decimal-pad"
+              keyboardType="decimal-pad"
               onInputChange={inputChangeHandler}
               required
               min={1}
@@ -141,7 +145,7 @@ const EditMenuScreen = (props) => {
             id="description"
             label="Description"
             errorText="Invalid field"
-            keyBoardType="default"
+            keyboardType="default"
             autoCapitalize="sentences"
             autoCorrect
             onInputChange={inputChangeHandler}
@@ -155,7 +159,7 @@ const EditMenuScreen = (props) => {
           <ActivityIndicator size="small" color={Colors.primary} />
         ) : (
           <View style={styles.button}>
-            <Button title="Submit" onPress={submitHandler} />
+            <ClearButton title="Submit" onPress={submitHandler} />
           </View>
         )}
       </ScrollView>

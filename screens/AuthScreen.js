@@ -2,7 +2,6 @@ import React, { useState, useReducer, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
-  Button,
   Alert,
   KeyboardAvoidingView,
   ScrollView,
@@ -18,6 +17,7 @@ import {
   FORM_INPUT_UPDATE,
 } from "../stores/reducers/common/FormReducer";
 
+import ClearButton from "../components/commons/ClearButton";
 import Colors from "../constants/Colors";
 import * as authActions from "../stores/actions/AuthAction";
 import RegText from "../components/commons/RegText";
@@ -65,6 +65,7 @@ const AuthScreen = (props) => {
       } else {
         props.navigation.navigate("Owner");
       }
+
       setIsLoading(false);
     }
   }, [currentUser]);
@@ -92,7 +93,8 @@ const AuthScreen = (props) => {
       await dispatch(action);
     } catch (err) {
       Alert.alert(err.message);
-    }
+      setIsLoading(false);
+    } 
   };
 
   const registerUserHandler = async () => {
@@ -176,7 +178,7 @@ const AuthScreen = (props) => {
         {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
-          <Button
+          <ClearButton
             title={isSignUp ? "Sign up" : "Login"}
             color={Colors.primary}
             disabled={formState.formIsValid ? false : true}
@@ -200,7 +202,6 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
     marginTop: 30,
     alignItems: "center",
   },
@@ -209,6 +210,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     maxHeight: 450,
     padding: 20,
+    marginBottom: 20,
   },
   signUp: {
     height: "10%",

@@ -1,4 +1,5 @@
 import * as menusRepo from "../../database/menusRepo";
+import * as offDayAction from "../../stores/actions/OffDayAction";
 
 export const SET_DAY_MENUS = "SET_DAY_MENUS";
 export const SET_OWNER_MENUS = "SET_OWNER_MENUS";
@@ -10,15 +11,21 @@ export const fetchMenuOfTheDay = (weekday) => {
   return async (dispatch) => {
     try {
       let menuItemsOfTheDay = [];
+      // get the menu of the day
       const menusOfTheDay = await menusRepo.getMenuOfTheDay(weekday);
       if (menusOfTheDay) {
-        //fetch overall menus
+        //get the owners that off for the days
+        const offOwnerIdList = await offDayAction.fetchOverallOffDays();
+
+        //get all menus data
         const overallMenuItems = await menusRepo.getMenuItemsData();
         Object.values(menusOfTheDay).forEach((x) => {
-          const menuItem = Object.assign(overallMenuItems[x.itemId], {
-            id: x.itemId,
-          });
-          menuItemsOfTheDay.push(menuItem);
+          if (!offOwnerIdList.includes(x.userId)) {
+            const menuItem = Object.assign(overallMenuItems[x.itemId], {
+              id: x.itemId,
+            });
+            menuItemsOfTheDay.push(menuItem);
+          }
         });
       }
 
@@ -34,11 +41,12 @@ export const fetchMenuOfTheDay = (weekday) => {
 };
 
 export const fetchOwnerMenu = (weekday) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
       //fetch overall menus
+      const userId = getState().auth.userId;
       let menuItemsData = [];
-      let ownerMenuData = await menusRepo.getOwnerMenusData("u1");
+      let ownerMenuData = await menusRepo.getOwnerMenusData(userId);
 
       if (ownerMenuData) {
         let menuOfTheDay = [];
@@ -68,16 +76,19 @@ export const fetchOwnerMenu = (weekday) => {
 };
 
 export const addMenu = (title, imageUrl, description, price, day) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     //PUSH TO FIREBASE
     //#region Firebase
+    const userId = getState().auth.userId;
+    const token = getState().auth.token;
     const resPostMenusData = await menusRepo.postMenusItems(
       title,
       imageUrl,
       description,
-      price
+      price,
+      token
     );
-    menusRepo.postMenus("u1", day, resPostMenusData.name);
+    menusRepo.postMenus(userId, day, resPostMenusData.name, token);
     //#endregion Firebase
 
     dispatch({
@@ -88,7 +99,7 @@ export const addMenu = (title, imageUrl, description, price, day) => {
         imageUrl,
         description,
         price,
-        userId: "u1",
+        userId,
       },
       weekday: day,
     });
@@ -96,9 +107,10 @@ export const addMenu = (title, imageUrl, description, price, day) => {
 };
 
 export const updateOwnerMenu = (id, title, imageUrl, description) => {
-  //UPDATE TO FIREBASE
-  menusRepo.updateOverallMenuItems(id, title, imageUrl, description);
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    //UPDATE TO FIREBASE
+    const token = getState().auth.token;
+    menusRepo.updateOverallMenuItems(id, title, imageUrl, description, token);
     dispatch({
       type: UPDATE_OWNER_MENUS,
       pid: id,
@@ -114,9 +126,10 @@ export const updateOwnerMenu = (id, title, imageUrl, description) => {
 export const removeOwnerMenu = (id) => {
   //UPDATE TO DATABASE
   try {
-    menusRepo.deleteOverallMenuItems(id);
-    menusRepo.deleteOverallMenus(id);
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      const token = getState().auth.token;
+      menusRepo.deleteOverallMenuItems(id, token);
+      menusRepo.deleteOverallMenus(id, token);
       dispatch({
         type: REMOVE_OWNER_MENUS,
         pid: id,

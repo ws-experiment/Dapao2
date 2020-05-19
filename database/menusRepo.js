@@ -1,7 +1,7 @@
-export const postMenusItems = async (title, imageUrl, description, price) => {
+export const postMenusItems = async (title, imageUrl, description, price, token) => {
   try {
     const response = await fetch(
-      `https://dapao2.firebaseio.com/overallMenuItems.json`,
+      `https://dapao2.firebaseio.com/overallMenuItems.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -23,10 +23,10 @@ export const postMenusItems = async (title, imageUrl, description, price) => {
   }
 };
 
-export const postMenus = async (ownerId, dayOfMenu, menuItemId) => {
+export const postMenus = async (ownerId, dayOfMenu, menuItemId, token) => {
   try {
     const response = await fetch(
-      `https://dapao2.firebaseio.com/overallMenus.json`,
+      `https://dapao2.firebaseio.com/overallMenus.json?auth=${token}`,
       {
         method: "POST",
         headers: {
@@ -86,11 +86,12 @@ export const updateOverallMenuItems = async (
   id,
   title,
   imageUrl,
-  description
+  description,
+  token
 ) => {
   try {
     const response = await fetch(
-      `https://dapao2.firebaseio.com/overallMenuItems/${id}.json`,
+      `https://dapao2.firebaseio.com/overallMenuItems/${id}.json?auth=${token}`,
       {
         method: "PATCH",
         header: {
@@ -112,10 +113,10 @@ export const updateOverallMenuItems = async (
   }
 };
 
-export const deleteOverallMenuItems = async (id) => {
+export const deleteOverallMenuItems = async (id, token) => {
   try {
     const response = await fetch(
-      `https://dapao2.firebaseio.com/overallMenuItems/${id}.json`,
+      `https://dapao2.firebaseio.com/overallMenuItems/${id}.json?auth=${token}`,
       { method: "DELETE" }
     );
     if (!response.ok) {
@@ -127,7 +128,7 @@ export const deleteOverallMenuItems = async (id) => {
   }
 };
 
-export const deleteOverallMenus = async (itemId) => {
+export const deleteOverallMenus = async (itemId, token) => {
   try {
     const fetchResponse = await fetch(
       `https://dapao2.firebaseio.com/overallMenus.json?orderBy="itemId"&equalTo=\"${itemId}\"`
@@ -136,7 +137,7 @@ export const deleteOverallMenus = async (itemId) => {
     const key = Object.keys(resData)[0];
 
     const response = await fetch(
-      `https://dapao2.firebaseio.com/overallMenus/${key}.json`,
+      `https://dapao2.firebaseio.com/overallMenus/${key}.json?auth=${token}`,
       { method: "DELETE" }
     );
     if (!response.ok) {

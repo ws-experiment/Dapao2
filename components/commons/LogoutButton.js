@@ -8,19 +8,20 @@ import {
   Button,
 } from "react-native";
 import Colors from "../../constants/Colors";
+import ClearButton from "./ClearButton";
 
 const LogoutButton = (props) => {
   return (
     <View style={styles.button}>
-      <Button title="logout" color="red" onPress={props.onPress} />
+      <ClearButton title="Log Out" danger onPress={props.onPress} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-      justifyContent: "center",
-      marginHorizontal: 10
+    justifyContent: "center",
+    marginHorizontal: 10,
   },
 });
 

@@ -1,11 +1,12 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { View, Text, StyleSheet, Platform, FlatList } from "react-native";
+import { View, ActivityIndicator, StyleSheet, Platform, FlatList } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import UserItem from "../../components/UserItem";
 
 import * as userAction from "../../stores/actions/UserAction";
+import defaultStyles from "../../constants/defaultStyles";
 
 const UserOverviewScreen = (props) => {
   //#region states
@@ -15,7 +16,10 @@ const UserOverviewScreen = (props) => {
   const dispatch = useDispatch();
 
   const loadUsers = useCallback(async () => {
-    await dispatch(userAction.fetchUsers());
+    setIsLoading(true);
+    await dispatch(userAction.fetchUsers()).then(()=>{
+      setIsLoading(false);
+    });
   }, [dispatch]);
 
   //any updates in database will update the list after come back from other screens
@@ -27,11 +31,16 @@ const UserOverviewScreen = (props) => {
   }, [loadUsers]);
 
   useEffect(() => {
-    setIsLoading(true);
-    loadUsers().then(() => {
-      setIsLoading(false);
-    });
-  }, [dispatch, loadUsers]);
+    loadUsers();
+  }, [loadUsers]);
+
+  if (isLoading) {
+    return (
+      <View style={defaultStyles.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <FlatList

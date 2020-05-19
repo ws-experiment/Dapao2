@@ -1,3 +1,5 @@
+import { AsyncStorage } from "react-native";
+
 import * as userRepo from "../../database/userRepo";
 
 export const FETCH_USER = "FETCH_USER";
@@ -14,7 +16,14 @@ export const fetchUsers = () => {
       //   usersData.push(item);
       // }
       const customers = await userRepo.getUsers();
-      dispatch({ type: FETCH_USER, users: Object.values(customers) });
+      const newCustomers = Object.values(customers).sort((a, b) =>
+        a.name.toUpperCase() > b.name.toUpperCase()
+          ? 1
+          : a.name.toUpperCase() < b.name.toUpperCase()
+          ? -1
+          : 0
+      );
+      dispatch({ type: FETCH_USER, users: newCustomers });
     } catch (err) {
       console.log(err);
     }
@@ -24,6 +33,11 @@ export const fetchUsers = () => {
 export const setCurrentUser = (userId) => {
   return async (dispatch) => {
     const userData = await userRepo.getCurrentUser(userId);
+    const userType = await AsyncStorage.getItem("userType");
+    if (!userType) {
+      saveUserTypeToStorage(userData.userType);
+    }
+
     dispatch({
       type: SET_CURRENT_USER,
       pid: userData.userId,
@@ -35,10 +49,10 @@ export const setCurrentUser = (userId) => {
 };
 
 export const addNewUser = (userId, name) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     try {
-      console.log("addNewUser");
-      userRepo.postUser(10, name, "Active", "Customer", userId);
+      const token = getState().auth.token;
+      userRepo.postUser(10, name, "Active", "Customer", userId, token);
       dispatch({
         type: ADD_USER,
         userId: userId,
@@ -54,9 +68,11 @@ export const addNewUser = (userId, name) => {
 };
 
 export const reload = (id, addedAmount) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     try {
-      userRepo.updateUserBalance(id, addedAmount);
+      const token = getState().auth.token;
+
+      userRepo.updateUserBalance(id, addedAmount, token);
       dispatch({ type: RELOAD, pid: id, amount: addedAmount });
     } catch (err) {
       console.log(err);
@@ -68,10 +84,22 @@ export const deductBalance = (deductAmount) => {
   return (dispatch, getState) => {
     try {
       const userId = getState().auth.userId;
-      userRepo.updateUserBalance(userId, deductAmount, false);
+      const token = getState().auth.token;
+      userRepo.updateUserBalance(userId, deductAmount, token, false);
       dispatch({ type: DEDUCT_BALANCE, pid: userId, amount: deductAmount });
     } catch (err) {
       console.log(err);
     }
   };
 };
+
+//#region private functions
+const saveUserTypeToStorage = (userType) => {
+  AsyncStorage.setItem(
+    "userType",
+    JSON.stringify({
+      userType,
+    })
+  );
+};
+//#endregion private functions

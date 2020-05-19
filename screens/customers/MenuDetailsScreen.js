@@ -7,7 +7,6 @@ import {
   Image,
   Button,
 } from "react-native";
-import { MENUITEMS } from "../../data/dummy-data";
 import RegText from "../../components/commons/RegText";
 import Colors from "../../constants/Colors";
 import { useSelector } from "react-redux";
