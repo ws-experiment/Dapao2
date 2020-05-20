@@ -5,7 +5,7 @@ import * as userAction from "../actions/UserAction";
 
 export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
-
+export const CHANGE_PW = "CHANGE_PW";
 //#region public functions
 export const registerNewUser = (email, password, name) => {
   return async (dispatch) => {
@@ -48,6 +48,23 @@ export const authenticate = (userId, token, expiredTime) => {
     });
   };
 };
+
+export const changePassword = (newPassword) => {
+  return async (dispatch, getState) => {
+    try {
+      const token = getState().auth.token;
+      const resData = await authRepo.changePassword(token, newPassword);
+
+      mergeTokenToStorage(resData.idToken);
+      dispatch({
+        type: CHANGE_PW,
+        token: resData.idToken,
+      });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
 //#endregion public functions
 
 //#region private functions
@@ -57,7 +74,16 @@ const saveUserIdToStorage = (token, userId, expirationDate) => {
     JSON.stringify({
       token: token,
       userId: userId,
-      expiryDate : expirationDate.toISOString()
+      expiryDate: expirationDate.toISOString(),
+    })
+  );
+};
+
+const mergeTokenToStorage = (token) => {
+  AsyncStorage.mergeItem(
+    "userData",
+    JSON.stringify({
+      token: token,
     })
   );
 };
