@@ -1,4 +1,6 @@
 import { AsyncStorage } from "react-native";
+import { Base64 } from "js-base64";
+import moment from "moment";
 
 import * as authRepo from "../../database/authRepo";
 import * as userAction from "../actions/UserAction";
@@ -25,7 +27,7 @@ export const login = (email, password) => {
   return async (dispatch) => {
     const resData = await authRepo.login(email, password);
     dispatch(authenticate(resData.localId, resData.idToken, resData.expiresIn));
-    dispatch(userAction.setCurrentUser(resData.localId));
+    dispatch(userAction.setCurrentUser(resData.localId, password));
   };
 };
 
@@ -35,9 +37,7 @@ export const authenticate = (userId, token, expiredTime) => {
     const userData = await AsyncStorage.getItem("userData");
     //Set the autologout time
     if (!userData) {
-      const expirationDate = new Date(
-        new Date().getTime() + parseInt(expiredTime) * 3600
-      );
+      const expirationDate = new Date(moment().add(55, "minutes"));
       saveUserIdToStorage(token, userId, expirationDate);
     }
 
@@ -49,13 +49,24 @@ export const authenticate = (userId, token, expiredTime) => {
   };
 };
 
-export const changePassword = (newPassword) => {
+export const changePassword = (oldPassword, newPassword) => {
   return async (dispatch, getState) => {
     try {
       const token = getState().auth.token;
-      const resData = await authRepo.changePassword(token, newPassword);
 
+      //validate the correct old password
+      const userTypeData = await AsyncStorage.getItem("userType");
+
+      const userTypeDataContent = JSON.parse(userTypeData);
+      const { password } = userTypeDataContent;
+
+      if (oldPassword !== Base64.decode(password)) {
+        throw new Error("You Current Password is incorrect");
+      }
+
+      const resData = await authRepo.changePassword(token, newPassword);
       mergeTokenToStorage(resData.idToken);
+      console.log("changePassword", "after mergeTokenToStorage ");
       dispatch({
         type: CHANGE_PW,
         token: resData.idToken,

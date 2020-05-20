@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { Base64 } from "js-base64";
 
 import * as userRepo from "../../database/userRepo";
 
@@ -30,12 +31,12 @@ export const fetchUsers = () => {
   };
 };
 
-export const setCurrentUser = (userId) => {
+export const setCurrentUser = (userId, password) => {
   return async (dispatch) => {
     const userData = await userRepo.getCurrentUser(userId);
     const userType = await AsyncStorage.getItem("userType");
     if (!userType) {
-      saveUserTypeToStorage(userData.userType);
+      saveUserTypeToStorage(userData.userType, Base64.encode(password));
     }
 
     dispatch({
@@ -94,11 +95,12 @@ export const deductBalance = (deductAmount) => {
 };
 
 //#region private functions
-const saveUserTypeToStorage = (userType) => {
+const saveUserTypeToStorage = (userType, password) => {
   AsyncStorage.setItem(
     "userType",
     JSON.stringify({
       userType,
+      password,
     })
   );
 };

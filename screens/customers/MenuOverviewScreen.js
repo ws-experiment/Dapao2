@@ -25,7 +25,7 @@ import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 const MenuOverviewScreen = (props) => {
   //#region states
   const [weekday] = useState(moment(new Date()).format("dddd"));
-  const [, setIsRefreshing] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading] = useState(false);
 
   const menuItemsOfTheDay = useSelector(

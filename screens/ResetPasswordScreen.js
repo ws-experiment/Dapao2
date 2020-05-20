@@ -64,7 +64,10 @@ const ResetPasswordScreen = (props) => {
     setIsLoading(true);
     try {
       await dispatch(
-        authActions.changePassword(formState.inputValues.confirmPassword)
+        authActions.changePassword(
+          formState.inputValues.currPassword,
+          formState.inputValues.confirmPassword
+        )
       ).then(() => {
         Alert.alert("Successfully Changed the Password");
       });
