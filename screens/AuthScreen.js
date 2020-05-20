@@ -23,10 +23,10 @@ import * as authActions from "../stores/actions/AuthAction";
 import RegText from "../components/commons/RegText";
 
 const AuthScreen = (props) => {
-  const newUser = props.navigation.getParam("isSignup");
+  const isSignUp = props.navigation.getParam("isSignup");
   const currentUser = useSelector((state) => state.user.currentUser);
   //#region states
-  const [isSignUp, setIsSignUp] = useState(newUser ? true : false);
+  //const [isSignUp, setIsSignUp] = useState(newUser ? true : false);
   const [isLoading, setIsLoading] = useState(false);
   //#endregion states
 
@@ -38,13 +38,11 @@ const AuthScreen = (props) => {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
     inputValidities: {
       name: isSignUp ? false : true,
       email: false,
-      password: false,
-      confirmPassword: isSignUp ? false : true,
+      password: isSignUp ? true : false,
     },
     formIsValid: false,
   };
@@ -102,7 +100,7 @@ const AuthScreen = (props) => {
   const registerUserHandler = async () => {
     let action = authActions.registerNewUser(
       formState.inputValues.email,
-      formState.inputValues.password,
+      "Password@321",
       formState.inputValues.name
     );
     setIsLoading(true);
@@ -142,25 +140,14 @@ const AuthScreen = (props) => {
             errorText="Please enter valid email address"
             onInputChange={inputChangeHandler}
           />
-          <Input
-            id="password"
-            label="Password"
-            secureTextEntry
-            required
-            minLength={5}
-            errorText="Invalid password"
-            autoCapitalize="none"
-            onInputChange={inputChangeHandler}
-          />
-          {isSignUp && (
+          {!isSignUp && (
             <Input
-              id="confirmPassword"
-              label="Confirm Password"
+              id="password"
+              label="Password"
               secureTextEntry
               required
-              errorText="Password does not match"
-              password
-              primaryPassword={formState.inputValues.password}
+              minLength={5}
+              errorText="Invalid password"
               autoCapitalize="none"
               onInputChange={inputChangeHandler}
             />
@@ -171,6 +158,9 @@ const AuthScreen = (props) => {
         <View style={styles.remarksContainer}>
           <RegText style={styles.remarksText}>
             Remarks: User will be pre-loaded with RM 10
+          </RegText>
+          <RegText style={styles.remarksText}>
+            Default Password: Password@321
           </RegText>
         </View>
       )}
@@ -218,6 +208,7 @@ const styles = StyleSheet.create({
   },
   remarksContainer: {
     marginTop: 10,
+    marginBottom: 10,
   },
   remarksText: {
     fontSize: 18,
