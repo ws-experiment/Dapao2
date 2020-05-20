@@ -26,6 +26,7 @@ export const logout = () => {
 export const login = (email, password) => {
   return async (dispatch) => {
     const resData = await authRepo.login(email, password);
+
     dispatch(authenticate(resData.localId, resData.idToken, resData.expiresIn));
     dispatch(userAction.setCurrentUser(resData.localId, password));
   };
@@ -66,7 +67,8 @@ export const changePassword = (oldPassword, newPassword) => {
 
       const resData = await authRepo.changePassword(token, newPassword);
       mergeTokenToStorage(resData.idToken);
-      console.log("changePassword", "after mergeTokenToStorage ");
+      userAction.mergeUserTypeToStorage(Base64.encode(newPassword));
+
       dispatch({
         type: CHANGE_PW,
         token: resData.idToken,

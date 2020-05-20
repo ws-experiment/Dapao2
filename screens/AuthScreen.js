@@ -60,12 +60,14 @@ const AuthScreen = (props) => {
       Object.entries(currentUser).length !== 0 &&
       currentUser.constructor === Object
     ) {
-      if (currentUser.userType === "Customer") {
+      //If first-time user, prompt to reset password
+      if (formState.inputValues.password === "Password@321") {
+        props.navigation.navigate("Settings", { firstTimeLogin: true });
+      } else if (currentUser.userType === "Customer") {
         props.navigation.navigate("Customer");
       } else {
         props.navigation.navigate("Owner");
       }
-
       setIsLoading(false);
     }
   }, [currentUser]);
@@ -94,7 +96,7 @@ const AuthScreen = (props) => {
     } catch (err) {
       Alert.alert(err.message);
       setIsLoading(false);
-    } 
+    }
   };
 
   const registerUserHandler = async () => {

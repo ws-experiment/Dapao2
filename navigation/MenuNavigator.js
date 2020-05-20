@@ -294,6 +294,10 @@ const MainStack = createStackNavigator({
     screen: AuthStack,
     navigationOptions: { headerShown: false, gestureEnabled: false },
   },
+  Settings: {
+    screen: SettingsStack,
+    navigationOptions: { headerShown: false }
+  },
   Owner: {
     screen: OwnerDrawer,
     navigationOptions: { headerShown: false, gestureEnabled: false },

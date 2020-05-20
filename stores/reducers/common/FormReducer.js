@@ -1,4 +1,5 @@
 export const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+export const FORM_RESET = "FORM_RESET";
 
 export const formReducer = (state, action) => {
   switch (action.type) {
@@ -21,6 +22,22 @@ export const formReducer = (state, action) => {
         formIsValid: updatedFormIsValid,
         inputValidities: updatedValidities,
         inputValues: updatedValues,
+      };
+    }
+    case FORM_RESET: {
+      const newInputValidities = {...state.inputValidities };
+      Object.keys(newInputValidities).forEach((x) => {
+        return (newInputValidities[x] = false);
+      });
+
+      const newInputValues = { ...state.inputValues };
+      Object.keys(newInputValues).forEach((x) => {
+        return (newInputValues[x] = "");
+      });
+      return {
+        formIsValid: false,
+        inputValidities: newInputValidities,
+        inputValues: newInputValues,
       };
     }
   }

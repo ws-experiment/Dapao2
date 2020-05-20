@@ -6,12 +6,14 @@ import {
   Alert,
   ActivityIndicator,
   View,
+  AsyncStorage,
 } from "react-native";
 import { useDispatch } from "react-redux";
 
 import {
   formReducer,
   FORM_INPUT_UPDATE,
+  FORM_RESET,
 } from "../stores/reducers/common/FormReducer";
 import { KeyboardAvoidingView } from "react-native";
 import Card from "../components/commons/Card";
@@ -22,6 +24,7 @@ import Colors from "../constants/Colors";
 import * as authActions from "../stores/actions/AuthAction";
 
 const ResetPasswordScreen = (props) => {
+  const firstTime = props.navigation.getParam("firstTimeLogin");
   //#region states
   const [isLoading, setIsLoading] = useState(false);
   //#endregion states
@@ -48,6 +51,18 @@ const ResetPasswordScreen = (props) => {
   //#endregion localReducer
 
   //#region handlers
+  const goToMainMenu = async () => {
+    const userTypeData = await AsyncStorage.getItem("userType");
+    const userTypeContent = JSON.parse(userTypeData);
+    const { userType } = userTypeContent;
+
+    if (userType === "Customer") {
+      props.navigation.navigate("Customer");
+    } else {
+      props.navigation.navigate("Owner");
+    }
+  };
+
   const inputChangeHandler = useCallback(
     (inputIdentifier, inputValue, validity) => {
       dispatchFormState({
@@ -66,10 +81,14 @@ const ResetPasswordScreen = (props) => {
       await dispatch(
         authActions.changePassword(
           formState.inputValues.currPassword,
-          formState.inputValues.confirmPassword
+          formState.inputValues.newPassword
         )
       ).then(() => {
         Alert.alert("Successfully Changed the Password");
+        dispatchFormState({ type: FORM_RESET });
+        if (firstTime) {
+          goToMainMenu();
+        }
       });
     } catch (err) {
       Alert.alert(err.message);
@@ -131,11 +150,13 @@ const ResetPasswordScreen = (props) => {
 };
 
 ResetPasswordScreen.navigationOptions = (navData) => {
+  const firstTime = navData.navigation.getParam("firstTimeLogin");
   return {
     headerTitle: "Reset Password",
-    headerLeft: () => (
-      <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
-    ),
+    headerLeft: () =>
+      firstTime ? null : (
+        <ToggleMenuButton onPress={() => navData.navigation.toggleDrawer()} />
+      ),
   };
   s;
 };

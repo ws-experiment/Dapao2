@@ -104,4 +104,13 @@ const saveUserTypeToStorage = (userType, password) => {
     })
   );
 };
+
+export const mergeUserTypeToStorage = (password) => {
+  AsyncStorage.mergeItem(
+    "userType",
+    JSON.stringify({
+      password
+    })
+  );
+};
 //#endregion private functions
