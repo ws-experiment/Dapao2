@@ -11,17 +11,22 @@ export const fetchPastOrders = () => {
     try {
       //#region Firebase
       const orders = await orderRepo.getOrderHistory(getState().auth.userId);
-      let loadedOrders = [];
+      let pastOrders = [];
+      let newOrders = [];
+      const dateToday = moment(new Date(), "MMM DD").format("MMM DD");
       for (var key in orders) {
         const orderItem = Object.assign(orders[key], { id: key });
-        loadedOrders.push(orderItem);
+        const sameDate =
+          dateToday === moment(orderItem.date, "MMM DD").format("MMM DD");
+        sameDate ? newOrders.push(orderItem) : pastOrders.push(orderItem);
       }
-      loadedOrders = loadedOrders.sort(
+      pastOrders = pastOrders.sort(
         (a, b) => new Date(b.date) - new Date(a.date)
       );
+
       //#endregion Firebase
 
-      dispatch({ type: FETCH_ORDER, orders: loadedOrders });
+      dispatch({ type: FETCH_ORDER, orders: newOrders, pastOrders });
     } catch (err) {
       throw err;
     }
@@ -54,7 +59,14 @@ export const addOrder = (cartItems, totalAmount, userName) => {
     const token = getState().auth.token;
     const date = moment(new Date()).format("MMM DD HH:mm");
 
-    orderRepo.postOrder(cartItems, date, totalAmount, currentUserId, userName, token);
+    orderRepo.postOrder(
+      cartItems,
+      date,
+      totalAmount,
+      currentUserId,
+      userName,
+      token
+    );
 
     const orderData = {
       userId: currentUserId,

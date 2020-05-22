@@ -32,6 +32,7 @@ const MenuOverviewScreen = (props) => {
     (state) => state.menus.menuItemsOfTheDay
   );
   const count = useSelector((state) => state.cart.totalItems);
+
   //#endregion states
 
   useEffect(() => {
@@ -60,9 +61,7 @@ const MenuOverviewScreen = (props) => {
 
   // Fetch for the first time when the screen is firstly rendered
   useEffect(() => {
-    //setIsLoading(true);
     loadProducts();
-    // setIsLoading(false);
   }, [dispatch, loadProducts]);
 
   useEffect(() => {

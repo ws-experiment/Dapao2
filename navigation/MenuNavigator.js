@@ -1,10 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Platform, SafeAreaView, View } from "react-native";
 import {
   createAppContainer,
   NavigationActions,
-  StackActions,
-  createSwitchNavigator,
+  StackActions
 } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import {
@@ -27,7 +26,8 @@ import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import MenuDetailsScreen from "../screens/customers/MenuDetailsScreen";
 import MenuOverviewScreen from "../screens/customers/MenuOverviewScreen";
 import CartScreen from "../screens/customers/CartScreen";
-import OrderHistoryScreen from "../screens/customers/OrderHistoryScreen";
+import OrderTabsScreen from "../screens/customers/OrderTabsScreen";
+
 //Owners
 import OwnerMenuScreen from "../screens/owners/OwnerMenuScreen";
 import OwnerMenuDetailsScreen from "../screens/owners/OwnerMenuDetailsScreen";
@@ -45,11 +45,7 @@ const SettingsStack = createStackNavigator(
     navigationOptions: {
       drawerIcon: (drawerConfig) => (
         <Ionicons
-          name={
-            Platform.OS === "android"
-              ? "md-settings"
-              : "ios-settings"
-          }
+          name={Platform.OS === "android" ? "md-settings" : "ios-settings"}
           size={23}
           color={drawerConfig.tintColor}
         />
@@ -80,9 +76,9 @@ const MenuStack = createStackNavigator(
   }
 );
 
-const OrderStack = createStackNavigator(
+const PastOrderStack = createStackNavigator(
   {
-    OrderHistory: OrderHistoryScreen,
+    PastOrder: OrderTabsScreen,
   },
   {
     navigationOptions: {
@@ -101,18 +97,13 @@ const OrderStack = createStackNavigator(
 const CustomerDrawer = createDrawerNavigator(
   {
     Menu: MenuStack,
-    Order: {
-      screen: OrderStack,
-      navigationOptions: {
-        drawerLabel: "My Past Order",
-      },
-    },
+    Order: PastOrderStack,
     Setting: {
       screen: SettingsStack,
       navigationOptions: {
-        drawerLabel: "Settings"
-      }
-    }
+        drawerLabel: "Settings",
+      },
+    },
   },
   {
     contentOptions: {
@@ -229,23 +220,23 @@ const OffDayStack = createStackNavigator(
 const OwnerDrawer = createDrawerNavigator(
   {
     Orders: CustomerOrderStack,
-    OwnerMenu: { 
+    OwnerMenu: {
       screen: OwnerMenuStack,
       navigationOptions: {
-        drawerLabel: "My Menu List"
-      }
+        drawerLabel: "My Menu List",
+      },
     },
     Users: {
       screen: UsersStack,
       navigationOptions: {
-        drawerLabel: "Users List "
-      }
+        drawerLabel: "Users List ",
+      },
     },
     OffDay: {
       screen: OffDayStack,
       navigationOptions: {
-        drawerLabel: "My Off Days "
-      }
+        drawerLabel: "My Off Days ",
+      },
     },
     Setting: SettingsStack,
   },
@@ -296,7 +287,7 @@ const MainStack = createStackNavigator({
   },
   Settings: {
     screen: SettingsStack,
-    navigationOptions: { headerShown: false }
+    navigationOptions: { headerShown: false },
   },
   Owner: {
     screen: OwnerDrawer,

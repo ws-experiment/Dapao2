@@ -2,6 +2,7 @@ import { FETCH_ORDER, ADD_ORDER, FETCH_CUSTOMER_ORDER } from "../actions/OrderAc
 
 const initialState = {
   orders: [],
+  pastOrders: [],
   customerOrders: [],
 };
 
@@ -11,6 +12,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         orders: action.orders,
+        pastOrders: action.pastOrders
       };
     case FETCH_CUSTOMER_ORDER:
       return {
