@@ -26,8 +26,6 @@ const OwnerMenuDetailsScreen = (props) => {
   const day = props.navigation.getParam("day");
   const overallMenus = useSelector((state) => state.menus.ownerMenuItems);
   const [isLoading, setIsLoading] = useState(false);
-
-  //console.log("OwnerMenuDetailsScreen ", overallMenus);
   //#endregion states
 
   const dispatch = useDispatch();
@@ -52,14 +50,14 @@ const OwnerMenuDetailsScreen = (props) => {
     props.navigation.navigate("EditMenu", { menuId: id, day: day });
   };
 
-  const deleteMenuHandler = (id) => {
+  const deleteMenuHandler = (id, title) => {
     Alert.alert("Are you sure", "Do you really want to delete this item", [
       { text: "No", style: "default" },
       {
         text: "yes",
         style: "destructive",
         onPress: () => {
-          dispatch(menusAction.removeOwnerMenu(id));
+          dispatch(menusAction.removeOwnerMenu(id, title));
         },
       },
     ]);
@@ -78,7 +76,7 @@ const OwnerMenuDetailsScreen = (props) => {
     return (
       <View style={styles.container}>
         <RegText style={styles.noMenuText}>
-          No Menu is Found. Try to Add Some!!{" "}
+          No Menu is Found. Try to Add Some!!
         </RegText>
         <Button
           style={styles.noMenuButton}
@@ -113,7 +111,7 @@ const OwnerMenuDetailsScreen = (props) => {
               danger
               style={styles.deleteButton}
               onPress={() => {
-                deleteMenuHandler(itemData.item.id);
+                deleteMenuHandler(itemData.item.id, itemData.item.title);
               }}
             />
           </View>

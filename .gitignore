@@ -11,6 +11,6 @@ npm-debug.*
 web-build/
 web-report/
 database/
-
+helpers/
 # macOS
 .DS_Store

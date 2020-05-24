@@ -101,7 +101,7 @@ const EditMenuScreen = (props) => {
       }
       props.navigation.goBack();
     } catch (err) {
-      console.log(err.message);
+      Alert.alert(err.message);
     }
   };
   //#endregion handlers

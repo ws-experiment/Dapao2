@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+
 import { View, Text, Image, Button, Alert, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
@@ -29,7 +31,7 @@ const ImgPicker = (props) => {
       aspect: [4, 3],
       quality: 0.5,
     });
-    
+
     if (image.cancelled) {
       return;
     }

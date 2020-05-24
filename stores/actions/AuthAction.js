@@ -12,7 +12,7 @@ export const CHANGE_PW = "CHANGE_PW";
 export const registerNewUser = (email, password, name) => {
   return async (dispatch) => {
     const resData = await authRepo.signup(email, password);
-    dispatch(authenticate(resData.localId, resData.idToken, false));
+    dispatch(authenticate(resData.localId, resData.idToken));
     dispatch(userAction.addNewUser(resData.localId, name));
   };
 };
@@ -27,12 +27,12 @@ export const login = (email, password) => {
   return async (dispatch) => {
     const resData = await authRepo.login(email, password);
 
-    dispatch(authenticate(resData.localId, resData.idToken, resData.expiresIn));
+    dispatch(authenticate(resData.localId, resData.idToken));
     dispatch(userAction.setCurrentUser(resData.localId, password));
   };
 };
 
-export const authenticate = (userId, token, expiredTime) => {
+export const authenticate = (userId, token) => {
   return async (dispatch) => {
     //Check whether the item is in AsyncStorage
     const userData = await AsyncStorage.getItem("userData");
