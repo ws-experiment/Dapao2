@@ -27,13 +27,13 @@ const MenuItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-  touchable: {
-    borderRadius: 10,
-    overflow: "hidden",
-  },
   card: {
     height: 340,
     margin: 20,
+  },
+  touchable: {
+    borderRadius: 10,
+    overflow: "hidden",
   },
   image: {
     width: "100%",

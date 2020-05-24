@@ -52,16 +52,13 @@ const OrderItem = (props) => {
 
 const styles = StyleSheet.create({
   orderItem: {
-    flex: 1,
-    margin: 20,
-    flexDirection: "row",
-    alignItems: "center",
-    overflow: "hidden",
+    margin: 10,
   },
   summaryContainer: {
     flexDirection: "column",
     alignItems: "flex-start",
-    width: "100%",
+    overflow: "hidden",
+    borderRadius: 10
   },
   userNameContainer: {
     width: "100%",
