@@ -21,7 +21,7 @@ const OrderTabsScreen = (props) => {
   const pastOrders = useSelector((state) => state.orders.pastOrders);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const loadOrders = useCallback(() => {
     setIsLoading(true);
     dispatch(orderActions.fetchPastOrders())
       .then(() => {
@@ -30,6 +30,19 @@ const OrderTabsScreen = (props) => {
       .catch((err) => {
         Alert.alert(err.message);
       });
+  }, [dispatch]);
+
+  //Call only after the didFocus event
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener("didFocus", loadOrders);
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadOrders]);
+
+  // Fetch for the first time when the screen is firstly rendered
+  useEffect(() => {
+    loadOrders();
   }, [dispatch]);
 
   const renderScene = ({ route }) => {

@@ -1,0 +1,5 @@
+28/05/2020 
+1. Added DidFocusEvent in OrderTabsScreen.js
+2. Changed Date format of OrderItems to Unix ms timestamp format.
+3. Modified AddOrder.
+4. Added ChangeLog
