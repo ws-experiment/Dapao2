@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
   FlatList,
+  Button,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -18,20 +19,35 @@ import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 const OrdersScreen = (props) => {
   //#region states
   const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const orders = useSelector((state) => state.orders.customerOrders);
   //#endregion states
   const dispatch = useDispatch();
 
+  const loadOrders = useCallback(async () => {
+    setIsRefreshing(true);
+    await dispatch(orderActions.fetchCustomerOrders()).then(() => {
+      setIsRefreshing(false);
+    });
+  }, [dispatch, setIsRefreshing]);
+
+  useEffect(() => {
+    const focusSub = props.navigation.addListener("didFocus", loadOrders);
+    return () => {
+      focusSub.remove();
+    };
+  }, [loadOrders]);
+
   useEffect(() => {
     setIsLoading(true);
-    dispatch(orderActions.fetchCustomerOrders())
+    loadOrders()
       .then(() => {
         setIsLoading(false);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, [dispatch]);
+  }, [dispatch, loadOrders]);
 
   if (isLoading) {
     return (
@@ -43,8 +59,11 @@ const OrdersScreen = (props) => {
 
   if (!isLoading && orders.length === 0) {
     return (
-      <View style={defaultStyles.centeredContainer}>
+      <View style={[styles.noOrderContainer, defaultStyles.centeredContainer]}>
         <Text>No Orders Found on Today </Text>
+        <View style={styles.button}>
+          <Button title="Tap to Refresh" onPress={() => loadOrders()} />
+        </View>
       </View>
     );
   }
@@ -53,6 +72,8 @@ const OrdersScreen = (props) => {
     <View style={styles.overall}>
       <FlatList
         data={orders}
+        refreshing={isRefreshing}
+        onRefresh={loadOrders}
         keyExtractor={(item, index) => index.toString()}
         renderItem={(itemData) => (
           <OrderItem
@@ -79,7 +100,14 @@ OrdersScreen.navigationOptions = (navData) => {
 
 const styles = StyleSheet.create({
   overall: {
+    flex: 1,
     marginTop: 15,
+  },
+  noOrderContainer: {
+    justifyContent: "center",
+  },
+  button: {
+    marginTop: 10,
   },
 });
 

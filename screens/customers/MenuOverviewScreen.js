@@ -24,7 +24,7 @@ import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const MenuOverviewScreen = (props) => {
   //#region states
-  const [weekday] = useState(moment(new Date()).format("dddd"));
+  const [weekday] = useState(moment().format("dddd"));
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading] = useState(false);
 
@@ -40,7 +40,6 @@ const MenuOverviewScreen = (props) => {
   }, [weekday]);
 
   const dispatch = useDispatch();
-
   //#region callbacks
 
   const loadProducts = useCallback(async () => {
@@ -62,7 +61,7 @@ const MenuOverviewScreen = (props) => {
   // Fetch for the first time when the screen is firstly rendered
   useEffect(() => {
     loadProducts();
-  }, [dispatch, loadProducts]);
+  }, [dispatch, loadProducts, weekday]);
 
   useEffect(() => {
     props.navigation.setParams({ badgeCount: count });
@@ -94,8 +93,6 @@ const MenuOverviewScreen = (props) => {
     <View>
       <FlatList
         data={menuItemsOfTheDay}
-        // refreshing={isRefreshing}
-        // onRefresh={loadProducts}
         renderItem={(itemData) => (
           <MenuItem
             imageSource={itemData.item.imageUrl}

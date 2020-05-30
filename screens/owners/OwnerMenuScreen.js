@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -7,11 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
-  TouchableNativeFeedback,
 } from "react-native";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
-import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
 
 const OwnerMenuScreen = (props) => {

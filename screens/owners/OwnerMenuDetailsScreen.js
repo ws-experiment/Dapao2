@@ -129,7 +129,7 @@ OwnerMenuDetailsScreen.navigationOptions = (navData) => {
       <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
         <Item
           title="ADD"
-          iconName={Platform.OS === "android" ? "md-create" : "ios-create"}
+          iconName={Platform.OS === "android" ? "md-add" : "ios-add"}
           onPress={() => {
             navData.navigation.navigate("EditMenu", { day: day });
           }}

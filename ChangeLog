@@ -8,3 +8,6 @@
 1. Modified UserAction addNewUser, reload, deductBalance.
 2. Modified fetchCustomerOrders.
 
+30/05/2020
+1. Add refresh on OrderScreen.
+2. Add DidFocusListener on OrderScreen.
