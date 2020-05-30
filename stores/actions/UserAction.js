@@ -54,14 +54,6 @@ export const addNewUser = (userId, name) => {
     try {
       const token = getState().auth.token;
       userRepo.postUser(10, name, "Active", "Customer", userId, token);
-      dispatch({
-        type: ADD_USER,
-        userId: userId,
-        name: name,
-        balance: 10,
-        status: "Active",
-        userType: "Customer",
-      });
     } catch (err) {
       console.log(err);
     }
@@ -72,9 +64,7 @@ export const reload = (id, addedAmount) => {
   return (dispatch, getState) => {
     try {
       const token = getState().auth.token;
-
       userRepo.updateUserBalance(id, addedAmount, token);
-      dispatch({ type: RELOAD, pid: id, amount: addedAmount });
     } catch (err) {
       console.log(err);
     }
@@ -87,7 +77,6 @@ export const deductBalance = (deductAmount) => {
       const userId = getState().auth.userId;
       const token = getState().auth.token;
       userRepo.updateUserBalance(userId, deductAmount, token, false);
-      dispatch({ type: DEDUCT_BALANCE, pid: userId, amount: deductAmount });
     } catch (err) {
       console.log(err);
     }

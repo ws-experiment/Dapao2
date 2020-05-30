@@ -43,12 +43,18 @@ export const fetchCustomerOrders = () => {
   return async (dispatch) => {
     try {
       //#region Firebase
-      const date = moment(new Date()).format("MMM DD");
-      const orders = await orderRepo.getOrderOfTheDay(date);
-
+      const orders = await orderRepo.getOrderOfTheDay();
       const loadedOrders = [];
       for (var key in orders) {
-        const orderItem = Object.assign(orders[key], { id: key });
+        // const orderItem = Object.assign(orders[key], { id: key });
+        const orderItem = {
+          id: key,
+          date: moment(orders[key].date, "x").format("MMM DD"),
+          name: orders[key].name,
+          totalPrice: orders[key].totalPrice,
+          userId: orders[key].userId,
+          cartItems: orders[key].cartItems,
+        };
         loadedOrders.push(orderItem);
       }
       //#endregion Firebase

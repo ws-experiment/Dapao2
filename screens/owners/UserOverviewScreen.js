@@ -27,7 +27,7 @@ const UserOverviewScreen = (props) => {
     await dispatch(userAction.fetchUsers()).then(() => {
       setIsLoading(false);
     });
-  }, [dispatch]);
+  }, [dispatch, setIsLoading]);
 
   //any updates in database will update the list after come back from other screens
   useEffect(() => {
@@ -35,11 +35,11 @@ const UserOverviewScreen = (props) => {
     return () => {
       willFocusSub.remove();
     };
-  }, [loadUsers]);
+  }, [dispatch, loadUsers]);
 
   useEffect(() => {
     loadUsers();
-  }, [loadUsers]);
+  }, [dispatch, loadUsers]);
 
   if (isLoading) {
     return (
@@ -93,6 +93,5 @@ UserOverviewScreen.navigationOptions = (navData) => {
   };
 };
 
-const styles = StyleSheet.create({});
 
 export default UserOverviewScreen;

@@ -1,5 +1,10 @@
 28/05/2020 
 1. Added DidFocusEvent in OrderTabsScreen.js
 2. Changed Date format of OrderItems to Unix ms timestamp format.
-3. Modified AddOrder.
-4. Added ChangeLog
+3. Modified AddOrder, fetchCustomerOrders.
+4. Added ChangeLog.
+
+29/05/2020
+1. Modified UserAction addNewUser, reload, deductBalance.
+2. Modified fetchCustomerOrders.
+
