@@ -28,7 +28,7 @@ export const login = (email, password) => {
     const resData = await authRepo.login(email, password);
 
     dispatch(authenticate(resData.localId, resData.idToken));
-    dispatch(userAction.setCurrentUser(resData.localId, password));
+    dispatch(userAction.setCurrentUserAtStartup(resData.localId, password));
   };
 };
 

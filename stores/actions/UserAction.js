@@ -31,20 +31,33 @@ export const fetchUsers = () => {
   };
 };
 
-export const setCurrentUser = (userId, password) => {
+export const setCurrentUserAtStartup = (userId, password) => {
   return async (dispatch) => {
     const userData = await userRepo.getCurrentUser(userId);
     const userType = await AsyncStorage.getItem("userType");
     if (!userType) {
       saveUserTypeToStorage(userData.userType, Base64.encode(password));
     }
-
     dispatch({
       type: SET_CURRENT_USER,
       pid: userData.userId,
       balance: userData.balance,
       name: userData.name,
       userType: userData.userType,
+    });
+  };
+};
+
+export const setCurrentUser = () => {
+  return async (dispatch, getState) => {
+    const currUserId = getState().auth.userId;
+    const currUserData = await userRepo.getCurrentUser(currUserId);
+    dispatch({
+      type: SET_CURRENT_USER,
+      pid: currUserData.userId,
+      balance: currUserData.balance,
+      name: currUserData.name,
+      userType: currUserData.userType,
     });
   };
 };
@@ -98,7 +111,7 @@ export const mergeUserTypeToStorage = (password) => {
   AsyncStorage.mergeItem(
     "userType",
     JSON.stringify({
-      password
+      password,
     })
   );
 };

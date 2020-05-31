@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -21,7 +21,8 @@ import CartItem from "../../components/CartItem";
 
 import * as cartActions from "../../stores/actions/CartAction";
 import * as orderActions from "../../stores/actions/OrderAction";
-import * as userActions from '../../stores/actions/UserAction';
+import * as userActions from "../../stores/actions/UserAction";
+import defaultStyles from "../../constants/defaultStyles";
 
 const CartScreen = (props) => {
   //#region states
@@ -29,10 +30,28 @@ const CartScreen = (props) => {
   const totalPrice = useSelector((state) => state.cart.totalAmount);
   const currentUser = useSelector((state) => state.user.currentUser);
   const [isLoading, setIsLoading] = useState(false);
- 
+
   //#endregion states
 
   const dispatch = useDispatch();
+
+  const loadCurrentUser = useCallback(async() => {
+    console.log("loadCurrentUser");
+    setIsLoading(true);
+    await dispatch(userActions.setCurrentUser()).then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch]);
+
+  /**
+   * No need another useEffect to fetchUser because have been fetched during login
+  */
+   useLayoutEffect(()=>{
+    const focusSub = props.navigation.addListener("willFocus", loadCurrentUser);
+    return () => {
+      focusSub.remove();
+    };
+  },[loadCurrentUser]);
 
   //#region handlers
   const sendOrderHandler = () => {
@@ -49,6 +68,14 @@ const CartScreen = (props) => {
     props.navigation.goBack();
   };
   //#endregion handlers
+
+  if (isLoading) {
+    return (
+      <View style={defaultStyles.loading}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.screen}>
@@ -79,24 +106,20 @@ const CartScreen = (props) => {
           )}
         />
       </View>
-      {isLoading ? (
-        <ActivityIndicator size="small" />
-      ) : (
-        <View style={styles.balanceContainer}>
-          <RegText style={styles.balanceTitle}>Remaining Balance</RegText>
-          <Card style={styles.cardContainer}>
-            <Ionicons
-              name={Platform.OS === "android" ? "md-cash" : "ios-cash"}
-              color="green"
-              size={26}
-              style={{ marginLeft: 10 }}
-            />
-            <BoldText style={styles.balance}>
-              RM {currentUser.balance.toFixed(2)}
-            </BoldText>
-          </Card>
-        </View>
-      )}
+      <View style={styles.balanceContainer}>
+        <RegText style={styles.balanceTitle}>Remaining Balance</RegText>
+        <Card style={styles.cardContainer}>
+          <Ionicons
+            name={Platform.OS === "android" ? "md-cash" : "ios-cash"}
+            color="green"
+            size={26}
+            style={{ marginLeft: 10 }}
+          />
+          <BoldText style={styles.balance}>
+            RM {currentUser.balance.toFixed(2)}
+          </BoldText>
+        </Card>
+      </View>
     </View>
   );
 };

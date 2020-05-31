@@ -1,10 +1,16 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, {
+  useEffect,
+  useCallback,
+  useState,
+  useLayoutEffect,
+} from "react";
 import {
   View,
   ActivityIndicator,
   StyleSheet,
   Platform,
   FlatList,
+  Button
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
@@ -14,6 +20,7 @@ import UserItem from "../../components/UserItem";
 import * as userAction from "../../stores/actions/UserAction";
 import defaultStyles from "../../constants/defaultStyles";
 import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
+import RegText from "../../components/commons/RegText";
 
 const UserOverviewScreen = (props) => {
   //#region states
@@ -27,24 +34,39 @@ const UserOverviewScreen = (props) => {
     await dispatch(userAction.fetchUsers()).then(() => {
       setIsLoading(false);
     });
-  }, [dispatch, setIsLoading]);
+  }, [dispatch]);
 
   //any updates in database will update the list after come back from other screens
-  useEffect(() => {
-    const willFocusSub = props.navigation.addListener("didFocus", loadUsers);
+  useLayoutEffect(() => {
+    const focusSub = props.navigation.addListener("didFocus", loadUsers);
     return () => {
-      willFocusSub.remove();
+      focusSub.remove();
     };
-  }, [dispatch, loadUsers]);
+  }, [loadUsers]);
 
   useEffect(() => {
     loadUsers();
-  }, [dispatch, loadUsers]);
+  }, [loadUsers]);
 
   if (isLoading) {
     return (
       <View style={defaultStyles.loading}>
         <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!isLoading && users.length == 0) {
+    return (
+      <View style={styles.container}>
+        <RegText style={styles.noMenuText}>
+          No User is Found. Try to Add Some!!
+        </RegText>
+        <Button
+          style={styles.noButton}
+          title="Add New User"
+          onPress={() => props.navigation.navigate("Auth", { isSignup: true })}
+        />
       </View>
     );
   }
@@ -93,5 +115,21 @@ UserOverviewScreen.navigationOptions = (navData) => {
   };
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    margin: 10,
+  },
+  noMenuText: {
+    fontSize: 18,
+    marginVertical: 20,
+  },
+  noButton: {
+    margin: 5,
+  },
+});
 
 export default UserOverviewScreen;

@@ -36,7 +36,7 @@ const StartupScreen = (props) => {
       }
       const expirationTime = expirationDate.getTime() - new Date().getTime();
       dispatch(authActions.authenticate(userId, token, expirationTime));
-      dispatch(userActions.setCurrentUser(userId, password));
+      dispatch(userActions.setCurrentUserAtStartup(userId, password));
 
       if (userType === "Customer") {
         props.navigation.navigate("Customer");
