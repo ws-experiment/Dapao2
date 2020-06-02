@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   Platform,
+  Text,
 } from "react-native";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
@@ -79,42 +80,51 @@ const MenuOverviewScreen = (props) => {
         <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
-  }
-
-  if (menuItemsOfTheDay.length == 0) {
+  } else if (menuItemsOfTheDay.length == 0) {
     return (
       <View style={defaultStyles.centeredContainer}>
         <RegText>Sorry, Order is not available for the day.</RegText>
       </View>
     );
+  } else if (new Date() > moment("10:00:00", "hh:mm:ss")) {
+    return (
+      <View style={defaultStyles.centeredContainer}>
+        <View style={{ alignItems: 'center'}}>
+          <RegText>Sorry, you late for order today.</RegText>
+          <RegText>Please order earlier before 10.00 am next time</RegText>
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <View>
+        <FlatList
+          data={menuItemsOfTheDay}
+          renderItem={(itemData) => (
+            <MenuItem
+              imageSource={itemData.item.imageUrl}
+              title={itemData.item.title}
+              price={itemData.item.price}
+              onPress={() =>
+                selectHandler(itemData.item.id, itemData.item.title)
+              }
+            >
+              <View style={styles.buttonContainer}>
+                <ClearButton
+                  title="TO CART"
+                  style={styles.toCartText}
+                  onPress={() => {
+                    dispatch(cartActions.addCart(itemData.item));
+                  }}
+                />
+              </View>
+            </MenuItem>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    );
   }
-
-  return (
-    <View>
-      <FlatList
-        data={menuItemsOfTheDay}
-        renderItem={(itemData) => (
-          <MenuItem
-            imageSource={itemData.item.imageUrl}
-            title={itemData.item.title}
-            price={itemData.item.price}
-            onPress={() => selectHandler(itemData.item.id, itemData.item.title)}
-          >
-            <View style={styles.buttonContainer}>
-              <ClearButton
-                title="TO CART"
-                style={styles.toCartText}
-                onPress={() => {
-                  dispatch(cartActions.addCart(itemData.item));
-                }}
-              />
-            </View>
-          </MenuItem>
-        )}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
-  );
 };
 
 MenuOverviewScreen.navigationOptions = (navData) => {

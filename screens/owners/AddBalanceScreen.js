@@ -17,15 +17,16 @@ const AddBalanceScreen = (props) => {
   const user = useSelector((state) => state.user.users).find(
     (x) => x.userId === selectedId
   );
-  
+
   const [amount, setAmount] = useState(0);
   //#endregion
-  
+
   const dispatch = useDispatch();
 
   const submitHandler = () => {
-    dispatch(userActions.reload(selectedId, +amount));
-    props.navigation.navigate("UserOverview");
+    dispatch(userActions.reload(selectedId, +amount)).then(() => {
+      props.navigation.navigate("UserOverview");
+    });
   };
 
   return (
@@ -73,7 +74,11 @@ const AddBalanceScreen = (props) => {
             />
           </View>
         </Card>
-        <ClearButton title="Submit" color={Colors.primary} onPress={submitHandler} />
+        <ClearButton
+          title="Submit"
+          color={Colors.primary}
+          onPress={submitHandler}
+        />
       </View>
     </View>
   );
@@ -81,8 +86,8 @@ const AddBalanceScreen = (props) => {
 
 AddBalanceScreen.navigationOptions = () => {
   return {
-    headerTitle: "Reload"
-  }
+    headerTitle: "Reload",
+  };
 };
 
 const styles = StyleSheet.create({
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
   reloadAmountContainer: {
     flexDirection: "column",
     padding: 10,
-    marginBottom: 25
+    marginBottom: 25,
   },
   balanceText: {
     fontSize: 18,

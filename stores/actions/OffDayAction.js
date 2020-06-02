@@ -52,15 +52,15 @@ export const fetchOwnerOffDays = () => {
 
 export const fetchOverallOffDays = async () => {
   let ownerIdList = [];
-
+  const today = moment(new Date()).format("YYYY-MM-DD");
   const offDayResData = await offDayRepo.getOverallOffDays();
-  if (Object.keys(offDayResData).length != 0) {
-    const today = moment(new Date()).format("YYYY-MM-DD");
-    Object.values(offDayResData).forEach((x) => {
+
+  Object.values(offDayResData).forEach((x) => {
+    if (x.offDayItems) {
       if (x.offDayItems.includes(today)) {
         ownerIdList.push(x.ownerId);
       }
-    });
-  }
+    }
+  });
   return ownerIdList;
 };

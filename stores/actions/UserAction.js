@@ -74,10 +74,10 @@ export const addNewUser = (userId, name) => {
 };
 
 export const reload = (id, addedAmount) => {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     try {
       const token = getState().auth.token;
-      userRepo.updateUserBalance(id, addedAmount, token);
+      await userRepo.updateUserBalance(id, addedAmount, token);
     } catch (err) {
       console.log(err);
     }
