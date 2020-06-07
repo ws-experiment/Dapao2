@@ -6,10 +6,12 @@ import {
   ActivityIndicator,
   Platform,
   Text,
+  BackHandler,
 } from "react-native";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { backPressed } from "../../utils/backPressed";
 
 import MenuItem from "../../components/MenuItem";
 import ClearButton from "../../components/commons/ClearButton";
@@ -59,6 +61,14 @@ const MenuOverviewScreen = (props) => {
     };
   }, [loadProducts]);
 
+  //Exit apps
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backPressed);
+
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backPressed);
+  }, []);
+
   // Fetch for the first time when the screen is firstly rendered
   useEffect(() => {
     loadProducts();
@@ -86,10 +96,10 @@ const MenuOverviewScreen = (props) => {
         <RegText>Sorry, Order is not available for the day.</RegText>
       </View>
     );
-  } else if (new Date() > moment("10:00:00", "hh:mm:ss")) {
+  } else if (new Date() > moment("21:00:00", "hh:mm:ss")) {
     return (
       <View style={defaultStyles.centeredContainer}>
-        <View style={{ alignItems: 'center'}}>
+        <View style={{ alignItems: "center" }}>
           <RegText>Sorry, you late for order today.</RegText>
           <RegText>Please order earlier before 10.00 am next time</RegText>
         </View>

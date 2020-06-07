@@ -1,16 +1,20 @@
-28/05/2020 
-1. Added DidFocusEvent in OrderTabsScreen.js
-2. Changed Date format of OrderItems to Unix ms timestamp format.
-3. Modified AddOrder, fetchCustomerOrders.
-4. Added ChangeLog.
+07/06/2020
+1. Added keyboardShouldPersisTaps in EditMenuScreen.
+2. Added backPressed function in utils.
 
-29/05/2020
-1. Modified UserAction addNewUser, reload, deductBalance.
-2. Modified fetchCustomerOrders.
+02/06/2020
+1. Modified fetchOverallOffDays.
 
 30/05/2020
 1. Add refresh on OrderScreen.
 2. Add DidFocusListener on OrderScreen.
 
-02/06/2020
-1. Modified fetchOverallOffDays.
+29/05/2020
+1. Modified UserAction addNewUser, reload, deductBalance.
+2. Modified fetchCustomerOrders.
+
+28/05/2020 
+1. Added DidFocusEvent in OrderTabsScreen.js
+2. Changed Date format of OrderItems to Unix ms timestamp format.
+3. Modified AddOrder, fetchCustomerOrders.
+4. Added ChangeLog.

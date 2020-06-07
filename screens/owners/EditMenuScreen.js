@@ -112,7 +112,7 @@ const EditMenuScreen = (props) => {
       behavior="padding"
       keyboardVerticalOffset={120}
     >
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="always">
         <Card style={styles.form}>
           <ImagePicker
             onImageTaken={imageTakenHandler}

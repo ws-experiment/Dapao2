@@ -34,12 +34,15 @@ export const fetchOwnerOffDays = () => {
       let filteredDate = [];
       const userId = getState().auth.userId;
       const resData = await offDayRepo.getOwnerOffDays(userId);
-      if (Object.keys(resData).length != 0) {
-        const key = Object.keys(resData)[0];
-        filteredDate = resData[key].offDayItems.filter((x) =>
-          moment(x).isAfter(new Date())
+      const key = Object.keys(resData)[0];
+
+      //if owner have ownerId
+      if (resData[key] && resData[key].offDayItems) {
+        filteredDate = resData[key].offDayItems.filter(
+          (x) => moment(x) > new Date()
         );
       }
+
       dispatch({
         type: SET_OFF_DAY,
         offDayItems: filteredDate,
@@ -50,6 +53,7 @@ export const fetchOwnerOffDays = () => {
   };
 };
 
+//fetch off days from customers to determine can order or not
 export const fetchOverallOffDays = async () => {
   let ownerIdList = [];
   const today = moment(new Date()).format("YYYY-MM-DD");

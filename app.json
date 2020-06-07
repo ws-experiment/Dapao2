@@ -18,7 +18,7 @@
 
     "ios": {
       "bundleIdentifier": "wst.dapao",
-      "buildNumber": "1.0.0"
+      "buildNumber": "0.0.1"
     },
 
     "android": {
