@@ -1,6 +1,8 @@
 07/06/2020
 1. Added keyboardShouldPersisTaps in EditMenuScreen.
 2. Added backPressed function in utils.
+3. Added backPressed in OrdersScreen.
+4. Bug fix when editing menu.
 
 02/06/2020
 1. Modified fetchOverallOffDays.

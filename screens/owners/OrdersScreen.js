@@ -6,15 +6,16 @@ import {
   ActivityIndicator,
   FlatList,
   Button,
+  Alert,
+  BackHandler,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import OrderItem from "../../components/OrderItem";
-import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import * as orderActions from "../../stores/actions/OrderAction";
 import defaultStyles from "../../constants/defaultStyles";
 import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
+import { backPressed } from "../../utils/backPressed";
 
 const OrdersScreen = (props) => {
   //#region states
@@ -45,9 +46,16 @@ const OrdersScreen = (props) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err.message);
+        Alert.alert(err.message);
       });
   }, [dispatch, loadOrders]);
+
+  //Exit Apps
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backPressed);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backPressed);
+  }, []);
 
   if (isLoading) {
     return (

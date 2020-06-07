@@ -55,20 +55,13 @@ const ImgPicker = (props) => {
     if (image.cancelled) {
       return;
     }
-
     setPickedImage(image.uri);
     props.onImageTaken(image.uri);
   };
 
-  return (
-    <View style={styles.imagePicker}>
-      <View style={styles.imagePreview}>
-        {!pickedImage ? (
-          <Text>No image picked yet</Text>
-        ) : (
-          <Image style={styles.image} source={{ uri: pickedImage }} />
-        )}
-      </View>
+  const buttons = null;
+  if (!props.imageUrl) {
+    buttons = (
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
           <Button
@@ -85,6 +78,19 @@ const ImgPicker = (props) => {
           />
         </View>
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.imagePicker}>
+      <View style={styles.imagePreview}>
+        {!pickedImage ? (
+          <Text>No image picked yet</Text>
+        ) : (
+          <Image style={styles.image} source={{ uri: pickedImage }} />
+        )}
+      </View>
+      {buttons}
     </View>
   );
 };

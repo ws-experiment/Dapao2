@@ -13,7 +13,7 @@ const NavigationContainer = (props) => {
         NavigationActions.navigate({ routeName: "Auth" })
       );
     }
-  }, [isAuth]);
+  }, []);
   return <MenuNavigator ref={navRef} />;
 };
 

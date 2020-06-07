@@ -87,7 +87,7 @@ export const addMenu = (title, imageUrl, description, price, day) => {
       //add image to Firebase Storage
       const serverPath = await firebaseHelper.uploadImage(imageUrl, title);
 
-      //push the server image path to firebase 
+      //push the server image path to firebase
       const resPostMenusData = await menusRepo.postMenusItems(
         title,
         serverPath,
@@ -98,7 +98,7 @@ export const addMenu = (title, imageUrl, description, price, day) => {
       menusRepo.postMenus(userId, day, resPostMenusData.name, token);
       //#endregion Firebase
 
-       //push local file location to reducer
+      //push local file location to reducer
       dispatch({
         type: ADD_OWNER_MENUS,
         menuData: {
@@ -119,24 +119,27 @@ export const addMenu = (title, imageUrl, description, price, day) => {
 
 export const updateOwnerMenu = (id, title, imageUrl, description) => {
   return async (dispatch, getState) => {
-    //UPDATE TO FIREBASE
-    const token = getState().auth.token;
-
-    //Remove image from Firebase Storage
-    firebaseHelper.deleteImage(title); 
-    //Add new image to Firebase Storage
-    const serverPath = await firebaseHelper.uploadImage(imageUrl, title);
-
-    menusRepo.updateOverallMenuItems(id, title, serverPath, description, token);
-    dispatch({
-      type: UPDATE_OWNER_MENUS,
-      pid: id,
-      menuData: {
+    try {
+      //UPDATE TO FIREBASE
+      const token = getState().auth.token;
+     
+      menusRepo.updateOverallMenuItems(
+        id,
         title,
-        imageUrl,
         description,
-      },
-    });
+        token
+      );
+      dispatch({
+        type: UPDATE_OWNER_MENUS,
+        pid: id,
+        menuData: {
+          title,
+          description,
+        },
+      });
+    } catch (err) {
+      throw err;
+    }
   };
 };
 

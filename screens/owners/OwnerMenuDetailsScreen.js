@@ -17,7 +17,6 @@ import defaultStyles from "../../constants/defaultStyles";
 import Colors from "../../constants/Colors";
 import RegText from "../../components/commons/RegText";
 import MenuItem from "../../components/MenuItem";
-import BorderlessButton from "../../components/commons/BorderlessButton";
 import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
 import ClearButton from "../../components/commons/ClearButton";
 

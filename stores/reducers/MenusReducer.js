@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
       const updateMenuItem = {
         id: state.ownerMenuItems[index].id,
         title: action.menuData.title,
-        imageUrl: action.menuData.imageUrl,
+        imageUrl: state.ownerMenuItems[index].imageUrl,
         description: action.menuData.description,
         price: state.ownerMenuItems[index].price,
       };
