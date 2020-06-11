@@ -67,6 +67,10 @@ const CartScreen = (props) => {
     dispatch(userActions.deductBalance(totalPrice));
     props.navigation.goBack();
   };
+
+  const removeCartHandler = (itemId) => {
+    dispatch(cartActions.removeFromCart(itemId));
+  };
   //#endregion handlers
 
   if (isLoading) {
@@ -99,9 +103,7 @@ const CartScreen = (props) => {
               quantity={itemData.item.quantity}
               sum={itemData.item.sum}
               delete
-              onRemove={() => {
-                dispatch(cartActions.removeFromCart(itemData.item.id));
-              }}
+              onRemove={removeCartHandler.bind(this, itemData.item.id)}
             />
           )}
         />

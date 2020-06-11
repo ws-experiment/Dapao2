@@ -13,13 +13,13 @@ import {
   Button
 } from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import CustomHeaderButton from "../../components/commons/CustomHeaderButton";
+import CustomHeaderButton from "../../components/commons/headerButtons/CustomHeaderButton";
 import { useSelector, useDispatch } from "react-redux";
 import UserItem from "../../components/UserItem";
 
 import * as userAction from "../../stores/actions/UserAction";
 import defaultStyles from "../../constants/defaultStyles";
-import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
+import ToggleMenuButton from "../../components/commons/headerButtons/ToggleMenuButton";
 import RegText from "../../components/commons/RegText";
 
 const UserOverviewScreen = (props) => {

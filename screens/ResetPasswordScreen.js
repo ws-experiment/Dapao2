@@ -18,7 +18,7 @@ import {
 import { KeyboardAvoidingView } from "react-native";
 import Card from "../components/commons/Card";
 import Input from "../components/commons/Input";
-import ToggleMenuButton from "../components/commons/ToggleMenuButton";
+import ToggleMenuButton from "../components/commons/headerButtons/ToggleMenuButton";
 import ClearButton from "../components/commons/ClearButton";
 import Colors from "../constants/Colors";
 import * as authActions from "../stores/actions/AuthAction";

@@ -5,7 +5,7 @@ import { Alert, StyleSheet, Dimensions } from "react-native";
 
 import * as orderActions from "../../stores/actions/OrderAction";
 import PastOrderScreen from "./PastOrderScreen";
-import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
+import ToggleMenuButton from "../../components/commons/headerButtons/ToggleMenuButton";
 
 const OrderTabsScreen = (props) => {
   //#region states

@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 export default NavigationOptions = {
   headerStyle: {
-    backgroundColor: Platform.OS === "android" ? Colors.primary : "",
+    backgroundColor: Colors.primary,
   },
   headerTitleStyle: {
     fontFamily: "font-bold",
@@ -11,5 +11,5 @@ export default NavigationOptions = {
   headerBackTitleStyle: {
     fontFamily: "font-regular",
   },
-  headerTintColor: Platform.OS === "android" ? "white" : Colors.primary,
+  headerTintColor: "white" ,
 };

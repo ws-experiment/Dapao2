@@ -20,10 +20,10 @@ import RegText from "../../components/commons/RegText";
 import * as menuActions from "../../stores/actions/MenusAction";
 import * as cartActions from "../../stores/actions/CartAction";
 
-import CustomHeaderIcon from "../../components/commons/CustomHeaderIcon";
 import Colors from "../../constants/Colors";
 import defaultStyles from "../../constants/defaultStyles";
-import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
+import ToggleMenuButton from "../../components/commons/headerButtons/ToggleMenuButton";
+import AnimatedHeaderIcon from "../../components/commons/headerButtons/AnimatedHeaderIcon";
 
 const MenuOverviewScreen = (props) => {
   //#region states
@@ -39,7 +39,7 @@ const MenuOverviewScreen = (props) => {
   //#endregion states
 
   useEffect(() => {
-    props.navigation.setParams({ weekday: weekday });
+    props.navigation.setParams({ weekday: weekday});
   }, [weekday]);
 
   const dispatch = useDispatch();
@@ -75,7 +75,7 @@ const MenuOverviewScreen = (props) => {
   }, [dispatch, loadProducts, weekday]);
 
   useEffect(() => {
-    props.navigation.setParams({ badgeCount: count });
+    props.navigation.setParams({ badgeCount: count});
   }, [count]);
 
   //#region handlers
@@ -139,6 +139,11 @@ const MenuOverviewScreen = (props) => {
 
 MenuOverviewScreen.navigationOptions = (navData) => {
   const badgeCount = navData.navigation.getParam("badgeCount");
+
+  const navigateCart = () => {
+    navData.navigation.navigate("Cart")
+  };
+
   return {
     headerTitle: `Menu of ${navData.navigation.getParam("weekday")}`,
     headerLeft: () => (
@@ -149,12 +154,13 @@ MenuOverviewScreen.navigationOptions = (navData) => {
         <Item
           title="Cart"
           ButtonElement={
-            <CustomHeaderIcon
+            <AnimatedHeaderIcon
               name={Platform.OS === "android" ? "md-cart" : "ios-cart"}
               badgeCount={badgeCount}
+              onPress={navigateCart}
+              
             />
           }
-          onPress={() => navData.navigation.navigate("Cart")}
         />
       </HeaderButtons>
     ),

@@ -9,7 +9,7 @@ import {
   Platform,
 } from "react-native";
 
-import ToggleMenuButton from "../../components/commons/ToggleMenuButton";
+import ToggleMenuButton from "../../components/commons/headerButtons/ToggleMenuButton";
 
 const OwnerMenuScreen = (props) => {
   //#region states
