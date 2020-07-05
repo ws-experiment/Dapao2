@@ -22,7 +22,9 @@ import CartItem from "../../components/CartItem";
 import * as cartActions from "../../stores/actions/CartAction";
 import * as orderActions from "../../stores/actions/OrderAction";
 import * as userActions from "../../stores/actions/UserAction";
+
 import defaultStyles from "../../constants/defaultStyles";
+import { CURRENCY } from "../../constants/currency";
 
 const CartScreen = (props) => {
   //#region states
@@ -85,7 +87,7 @@ const CartScreen = (props) => {
     <View style={styles.screen}>
       <Card style={styles.cardContainer}>
         <TextReg style={styles.total}>Total: </TextReg>
-        <TextBold style={styles.price}>RM {totalPrice.toFixed(2)}</TextBold>
+        <TextBold style={styles.price}>{CURRENCY} {totalPrice.toFixed(2)}</TextBold>
         <ButtonOrderNow
           title="ORDER NOW"
           disabled={cartItems.length === 0}
@@ -118,7 +120,7 @@ const CartScreen = (props) => {
             style={{ marginLeft: 10 }}
           />
           <TextBold style={styles.balance}>
-            RM {currentUser.balance.toFixed(2)}
+            {CURRENCY} {currentUser.balance.toFixed(2)}
           </TextBold>
         </Card>
       </View>

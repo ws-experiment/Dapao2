@@ -6,10 +6,14 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
+
+import { CURRENCY } from '../constants/currency';
 import Colors from '../constants/Colors';
+
 import Card from "./commons/Card";
 import TextBold from "./commons/TextBold";
 import TextReg from "./commons/TextReg";
+
 
 const MenuItem = (props) => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +41,7 @@ const MenuItem = (props) => {
               </TextBold>
             </View>
             <TextReg style={styles.detailPrice}>
-              RM {props.price.toFixed(2)}
+              {CURRENCY} {props.price.toFixed(2)}
             </TextReg>
           </View>
           {props.children}

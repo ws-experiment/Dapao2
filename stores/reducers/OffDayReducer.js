@@ -1,7 +1,6 @@
 import { SET_OFF_DAY, ADD_OFF_DAY } from "../actions/OffDayAction";
 
 const initialState = {
-  overallOffDayItems : [],
   offDayItems: [],
 };
 
@@ -10,8 +9,8 @@ export default (state = initialState, action) => {
     case SET_OFF_DAY: {
       return {
         ...state,
-        offDayItems: action.offDayItems
-      }
+        offDayItems: action.offDayItems,
+      };
     }
     case ADD_OFF_DAY: {
       let newDates = [];
@@ -24,8 +23,8 @@ export default (state = initialState, action) => {
       }
       return {
         ...state,
-        offDayItems: newDates
-      }
+        offDayItems: newDates,
+      };
     }
     default:
       return state;

@@ -40,6 +40,17 @@ const Input = (props) => {
   }, [inputState, onInputChange, id]);
 
   const textChangeHandler = (text) => {
+    //if price is not valid, return
+    const priceRegex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(,\d{3})*)|\d+)(\.\d{0,2})?$/;
+
+    if (
+      text &&
+      props.keyboardType === "decimal-pad" &&
+      !priceRegex.test(text)
+    ) {
+      return;
+    }
+
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let isValid = true;
     if (props.required && text.trim().length === 0) {
@@ -57,7 +68,7 @@ const Input = (props) => {
     if (props.minLength != null && text.length < props.minLength) {
       isValid = false;
     }
-    if (props.password && props.primaryPassword !== text){
+    if (props.password && props.primaryPassword !== text) {
       isValid = false;
     }
     dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });

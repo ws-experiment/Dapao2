@@ -3,10 +3,13 @@ import { View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
+import Colors from "../constants/Colors";
+import { CURRENCY } from '../constants/currency';
+
 import Card from "./commons/Card";
 import TextBold from "./commons/TextBold";
 import TextReg from "./commons/TextReg";
-import Colors from "../constants/Colors";
+
 import CartItem from "./CartItem";
 
 const OrderItem = (props) => {
@@ -42,7 +45,7 @@ const OrderItem = (props) => {
         >
           <TextReg style={styles.dateTimeText}>{props.date}</TextReg>
           <TextBold style={styles.totalPriceText}>
-            Total RM {props.totalPrice.toFixed(2)}
+            Total {CURRENCY} {props.totalPrice.toFixed(2)}
           </TextBold>
         </View>
       </View>

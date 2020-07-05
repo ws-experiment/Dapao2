@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Platform, Button, Alert } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
+
 import Card from "../../components/commons/Card";
 import TextReg from "../../components/commons/TextReg";
 import TextBold from "../../components/commons/TextBold";
-
-import { Ionicons } from "@expo/vector-icons";
 import ButtonClear from "../../components/commons/buttons/ButtonClear";
-import { useSelector, useDispatch } from "react-redux";
+
 import Colors from "../../constants/Colors";
+import { CURRENCY } from "../../constants/currency";
 
 import * as userActions from "../../stores/actions/UserAction";
 
@@ -49,7 +51,7 @@ const AddBalanceScreen = (props) => {
         <Card style={styles.reloadAmountContainer}>
           <View style={styles.amountContainer}>
             <TextReg style={styles.reloadAmountText}>
-              Please Select Reload Amount : RM
+              Please Select Reload Amount : {CURRENCY}
             </TextReg>
             <TextBold style={styles.reloadText}>{amount.toFixed(2)}</TextBold>
           </View>

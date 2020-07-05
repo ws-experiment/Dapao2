@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useCallback } from "react";
+import React, { useReducer, useState, useCallback, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -6,6 +6,8 @@ import {
   ScrollView,
   Alert,
   Keyboard,
+  Button,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import ImagePicker from "../../components/commons/ImagePicker";
@@ -104,13 +106,13 @@ const EditMenuScreen = (props) => {
   //#endregion handlers
 
   return (
-    <ScrollView keyboardShouldPersistTaps="always">
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <Card style={styles.form}>
-          <ImagePicker
-            onImageTaken={imageTakenHandler}
-            imageUrl={editedMenu ? editedMenu.imageUrl : ""}
-          />
+    <KeyboardAvoidingView style={{flex: 1}} behavior="padding" keyboardVerticalOffset={120}>
+      <Card style={styles.form}>
+        <ImagePicker
+          onImageTaken={imageTakenHandler}
+          imageUrl={editedMenu ? editedMenu.imageUrl : ""}
+        />
+        <ScrollView>
           <Input
             id="title"
             label="Title"
@@ -146,8 +148,8 @@ const EditMenuScreen = (props) => {
             required
             minLength={5}
           />
-        </Card>
-      </TouchableWithoutFeedback>
+        </ScrollView>
+      </Card>
       {isLoading ? (
         <ActivityIndicator size="small" color={Colors.primary} />
       ) : (
@@ -159,13 +161,14 @@ const EditMenuScreen = (props) => {
           />
         </View>
       )}
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
-EditMenuScreen.navigationOptions = () => {
+EditMenuScreen.navigationOptions = (navData) => {
+  const menuId = navData.navigation.getParam("menuId");
   return {
-    headerTitle: `Edit Menu`,
+    headerTitle: menuId ? `Edit Menu` : `Add Menu`,
   };
 };
 

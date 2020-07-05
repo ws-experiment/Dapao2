@@ -1,8 +1,11 @@
 import React from "react";
 import { StyleSheet, ScrollView, Image, Button } from "react-native";
-import TextReg from "../../components/commons/TextReg";
-import Colors from "../../constants/Colors";
 import { useSelector, useDispatch } from "react-redux";
+
+import TextReg from "../../components/commons/TextReg";
+
+import Colors from "../../constants/Colors";
+import { CURRENCY } from '../../constants/currency';
 
 import * as cartActions from "../../stores/actions/CartAction";
 
@@ -27,7 +30,7 @@ const MenuDetailsScreen = (props) => {
         title="Add to Carts"
         onPress={() => selectHandler(menuItem)}
       />
-      <TextReg style={styles.price}>RM {menuItem.price.toFixed(2)}</TextReg>
+      <TextReg style={styles.price}>{CURRENCY} {menuItem.price.toFixed(2)}</TextReg>
       <TextReg style={styles.description}>{menuItem.description}</TextReg>
     </ScrollView>
   );

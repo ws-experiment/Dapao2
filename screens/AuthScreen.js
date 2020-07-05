@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Alert,
   KeyboardAvoidingView,
-  ScrollView,
   ActivityIndicator,
   TouchableWithoutFeedback,
   Keyboard,
@@ -14,16 +13,18 @@ import { StackActions, NavigationActions } from "react-navigation";
 
 import Card from "../components/commons/Card";
 import Input from "../components/commons/Input";
+import ButtonClear from "../components/commons/buttons/ButtonClear";
+import TextReg from "../components/commons/TextReg";
 
 import {
   formReducer,
   FORM_INPUT_UPDATE,
 } from "../stores/reducers/common/FormReducer";
 
-import ButtonClear from "../components/commons/buttons/ButtonClear";
 import Colors from "../constants/Colors";
+import { CURRENCY } from '../constants/currency';
+
 import * as authActions from "../stores/actions/AuthAction";
-import TextReg from "../components/commons/TextReg";
 
 const AuthScreen = (props) => {
   const isSignUp = props.navigation.getParam("isSignup");
@@ -169,7 +170,7 @@ const AuthScreen = (props) => {
         {isSignUp && (
           <View style={styles.remarksContainer}>
             <TextReg style={styles.remarksText}>
-              Remarks: User will be pre-loaded with RM 10
+              Remarks: User will be pre-loaded with {CURRENCY} 10
             </TextReg>
             <TextReg style={styles.remarksText}>
               Default Password: Password@321

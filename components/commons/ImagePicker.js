@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { View, Text, Image, Button, Alert, StyleSheet } from "react-native";
+
+import ButtonClear from "../commons/buttons/ButtonClear";
+
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 
-import { View, Text, Image, Button, Alert, StyleSheet } from "react-native";
 import Colors from "../../constants/Colors";
 
 const ImgPicker = (props) => {
@@ -22,6 +24,7 @@ const ImgPicker = (props) => {
   };
 
   const takeImageHandler = async () => {
+    console.log("takeImageHandler");
     const hasPermission = await verifyPermission();
     if (!hasPermission) {
       return;
@@ -64,18 +67,10 @@ const ImgPicker = (props) => {
     buttons = (
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <Button
-            title="Take Image"
-            color={Colors.primary}
-            onPress={takeImageHandler}
-          />
+          <ButtonClear safe title="New" onPress={takeImageHandler} />
         </View>
         <View style={styles.button}>
-          <Button
-            title="Gallery"
-            color={Colors.primary}
-            onPress={galleryHandler}
-          />
+          <ButtonClear danger title="Gallery" onPress={galleryHandler} />
         </View>
       </View>
     );
@@ -90,7 +85,16 @@ const ImgPicker = (props) => {
           <Image style={styles.image} source={{ uri: pickedImage }} />
         )}
       </View>
-      {buttons}
+      {!props.imageUrl ? (
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <ButtonClear safe title="New" onPress={takeImageHandler} />
+          </View>
+          <View style={styles.button}>
+            <ButtonClear danger title="Gallery" onPress={galleryHandler} />
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };

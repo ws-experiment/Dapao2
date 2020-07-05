@@ -3,6 +3,8 @@
 2. Edit Menu - Enable to Edit Price
 3. Loading indicator on image in MenuItem.
 4. Bug Fixed, Android navigated to login screen after pressed back
+5. Add total price in MenuOverviewScreen.js
+6. Validate the input for price.
 
 07/06/2020
 1. Added keyboardShouldPersisTaps in EditMenuScreen.

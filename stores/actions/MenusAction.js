@@ -45,8 +45,6 @@ export const fetchMenuOfTheDay = (weekday) => {
 export const fetchOwnerMenu = (weekday) => {
   return async (dispatch, getState) => {
     try {
-      //fetch overall menus
-      console.log("fetchOwnerMenu");
       const userId = getState().auth.userId;
       let menuItemsData = [];
       let ownerMenuData = await menusRepo.getOwnerMenusData(userId);
