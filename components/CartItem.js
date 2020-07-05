@@ -8,8 +8,8 @@ import {
 } from "react-native";
 
 import Card from "./commons/Card";
-import BoldText from "./commons/BoldText";
-import RegText from "./commons/RegText";
+import TextBold from "./commons/TextBold";
+import TextReg from "./commons/TextReg";
 import Colors from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -17,14 +17,14 @@ const CartItem = (props) => {
   return (
     <View style={styles.cartItem}>
       <View style={styles.titleContainer}>
-        <RegText numberOfLines={1} style={styles.number}>{props.title}</RegText>
+        <TextReg numberOfLines={1} style={styles.number}>{props.title}</TextReg>
       </View>
-      <RegText style={styles.number}>{props.price.toFixed(2)}</RegText>
+      <TextReg style={styles.number}>{props.price.toFixed(2)}</TextReg>
       <View style={styles.quantityContainer}>
-        <RegText style={styles.quantity}>x{props.quantity}</RegText>
+        <TextReg style={styles.quantity}>x{props.quantity}</TextReg>
       </View>
       <View style={styles.sumContainer}>
-      <BoldText style={styles.number}>{props.sum.toFixed(2)}</BoldText>
+      <TextBold style={styles.number}>{props.sum.toFixed(2)}</TextBold>
       </View>
       {props.delete && (
         <TouchableOpacity onPress={props.onRemove} style={styles.deleteButton}>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   sumContainer: {
-    width: "15%"
+    width: "20%"
   },
   deleteButton: {
     marginLeft: 10,

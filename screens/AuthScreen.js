@@ -6,8 +6,11 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { StackActions, NavigationActions } from "react-navigation";
 
 import Card from "../components/commons/Card";
 import Input from "../components/commons/Input";
@@ -17,10 +20,10 @@ import {
   FORM_INPUT_UPDATE,
 } from "../stores/reducers/common/FormReducer";
 
-import ClearButton from "../components/commons/ClearButton";
+import ButtonClear from "../components/commons/buttons/ButtonClear";
 import Colors from "../constants/Colors";
 import * as authActions from "../stores/actions/AuthAction";
-import RegText from "../components/commons/RegText";
+import TextReg from "../components/commons/TextReg";
 
 const AuthScreen = (props) => {
   const isSignUp = props.navigation.getParam("isSignup");
@@ -59,16 +62,26 @@ const AuthScreen = (props) => {
       currentUser.constructor === Object
     ) {
       //If first-time user, prompt to reset password
-      if (formState.inputValues.password === "Password@321") {
+      if (formState.inputValues.password === "Password@321" && !isSignUp) {
         props.navigation.navigate("Settings", { firstTimeLogin: true });
-      } else if (currentUser.userType === "Customer") {
-        props.navigation.navigate("Customer");
-      } else {
-        props.navigation.navigate("Owner");
+      } else if (currentUser.userType === "Customer" && !isSignUp) {
+        props.navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: "Customer" })],
+          })
+        );
+      } else if (!isSignUp) {
+        props.navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: "Owner" })],
+          })
+        );
       }
       setIsLoading(false);
     }
-  }, [currentUser]);
+  });
 
   //#region handlers
   const inputChangeHandler = useCallback(
@@ -117,9 +130,9 @@ const AuthScreen = (props) => {
   //#endregion handlers
 
   return (
-    <KeyboardAvoidingView style={styles.screen}>
-      <Card style={styles.authContainer}>
-        <ScrollView>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView style={styles.screen}>
+        <Card style={styles.authContainer}>
           {isSignUp && (
             <Input
               id="name"
@@ -152,31 +165,32 @@ const AuthScreen = (props) => {
               onInputChange={inputChangeHandler}
             />
           )}
-        </ScrollView>
-      </Card>
-      {isSignUp && (
-        <View style={styles.remarksContainer}>
-          <RegText style={styles.remarksText}>
-            Remarks: User will be pre-loaded with RM 10
-          </RegText>
-          <RegText style={styles.remarksText}>
-            Default Password: Password@321
-          </RegText>
-        </View>
-      )}
-      <View style={styles.signUp}>
-        {isLoading ? (
-          <ActivityIndicator size="small" />
-        ) : (
-          <ClearButton
-            title={isSignUp ? "Sign up" : "Login"}
-            color={Colors.primary}
-            disabled={formState.formIsValid ? false : true}
-            onPress={isSignUp ? registerUserHandler : authHandler}
-          />
+        </Card>
+        {isSignUp && (
+          <View style={styles.remarksContainer}>
+            <TextReg style={styles.remarksText}>
+              Remarks: User will be pre-loaded with RM 10
+            </TextReg>
+            <TextReg style={styles.remarksText}>
+              Default Password: Password@321
+            </TextReg>
+          </View>
         )}
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.signUp}>
+          {isLoading ? (
+            <ActivityIndicator size="small" />
+          ) : (
+            <ButtonClear
+              safe={isSignUp ? false : true}
+              title={isSignUp ? "Sign up" : "Login"}
+              color={Colors.primary}
+              disabled={formState.formIsValid ? false : true}
+              onPress={isSignUp ? registerUserHandler : authHandler}
+            />
+          )}
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

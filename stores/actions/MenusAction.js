@@ -46,6 +46,7 @@ export const fetchOwnerMenu = (weekday) => {
   return async (dispatch, getState) => {
     try {
       //fetch overall menus
+      console.log("fetchOwnerMenu");
       const userId = getState().auth.userId;
       let menuItemsData = [];
       let ownerMenuData = await menusRepo.getOwnerMenusData(userId);
@@ -117,7 +118,7 @@ export const addMenu = (title, imageUrl, description, price, day) => {
   };
 };
 
-export const updateOwnerMenu = (id, title, imageUrl, description) => {
+export const updateOwnerMenu = (id, title, imageUrl, description, price) => {
   return async (dispatch, getState) => {
     try {
       //UPDATE TO FIREBASE
@@ -127,7 +128,8 @@ export const updateOwnerMenu = (id, title, imageUrl, description) => {
         id,
         title,
         description,
-        token
+        token,
+        price
       );
       dispatch({
         type: UPDATE_OWNER_MENUS,
@@ -135,6 +137,7 @@ export const updateOwnerMenu = (id, title, imageUrl, description) => {
         menuData: {
           title,
           description,
+          price
         },
       });
     } catch (err) {

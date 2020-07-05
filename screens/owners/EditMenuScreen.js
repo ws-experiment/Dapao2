@@ -1,29 +1,26 @@
 import React, { useReducer, useState, useCallback } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ActivityIndicator,
   ScrollView,
-  KeyboardAvoidingView,
   Alert,
-  Button,
+  Keyboard,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import ImagePicker from "../../components/commons/ImagePicker";
-import defaultStyles from "../../constants/defaultStyles";
 
 import Colors from "../../constants/Colors";
 import Input from "../../components/commons/Input";
 import Card from "../../components/commons/Card";
-import ClearButton from "../../components/commons/ClearButton";
+import ButtonClear from "../../components/commons/buttons/ButtonClear";
 
 import * as menuActions from "../../stores/actions/MenusAction";
 import {
   formReducer,
   FORM_INPUT_UPDATE,
 } from "../../stores/reducers/common/FormReducer";
-
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const EditMenuScreen = (props) => {
   //#region states
@@ -33,7 +30,6 @@ const EditMenuScreen = (props) => {
     state.menus.ownerMenuItems.find((menu) => menu.id === menuId)
   );
   const [isLoading, setIsLoading] = useState(false);
-
   //#endregion states
   const dispatch = useDispatch();
 
@@ -43,7 +39,7 @@ const EditMenuScreen = (props) => {
       title: editedMenu ? editedMenu.title : "",
       imageUrl: editedMenu ? editedMenu.imageUrl : "",
       description: editedMenu ? editedMenu.description : "",
-      price: "",
+      price: editedMenu ? editedMenu.price : "",
     },
     inputValidities: {
       title: editedMenu ? true : false,
@@ -85,7 +81,8 @@ const EditMenuScreen = (props) => {
             menuId,
             formState.inputValues.title,
             formState.inputValues.imageUrl,
-            formState.inputValues.description
+            formState.inputValues.description,
+            +formState.inputValues.price
           )
         );
       } else {
@@ -107,12 +104,8 @@ const EditMenuScreen = (props) => {
   //#endregion handlers
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior="padding"
-      keyboardVerticalOffset={120}
-    >
-      <ScrollView keyboardShouldPersistTaps="always">
+    <ScrollView keyboardShouldPersistTaps="always">
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <Card style={styles.form}>
           <ImagePicker
             onImageTaken={imageTakenHandler}
@@ -130,17 +123,16 @@ const EditMenuScreen = (props) => {
             initiallyValid={!!editedMenu}
             required
           />
-          {!editedMenu && (
-            <Input
-              id="price"
-              label="Price"
-              errorText="Invalid field"
-              keyboardType="decimal-pad"
-              onInputChange={inputChangeHandler}
-              required
-              min={1}
-            />
-          )}
+          <Input
+            id="price"
+            label="Price"
+            errorText="Invalid field"
+            keyboardType="decimal-pad"
+            onInputChange={inputChangeHandler}
+            required
+            initialValue={editedMenu ? editedMenu.price.toFixed(2) : ""}
+            initiallyValid={!!editedMenu}
+          />
           <Input
             id="description"
             label="Description"
@@ -155,19 +147,23 @@ const EditMenuScreen = (props) => {
             minLength={5}
           />
         </Card>
-        {isLoading ? (
-          <ActivityIndicator size="small" color={Colors.primary} />
-        ) : (
-          <View style={styles.button}>
-            <ClearButton title="Submit" onPress={submitHandler} />
-          </View>
-        )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      {isLoading ? (
+        <ActivityIndicator size="small" color={Colors.primary} />
+      ) : (
+        <View style={styles.button}>
+          <ButtonClear
+            title="Submit"
+            onPress={submitHandler}
+            disabled={!formState.formIsValid}
+          />
+        </View>
+      )}
+    </ScrollView>
   );
 };
 
-EditMenuScreen.navigationOptions = (navData) => {
+EditMenuScreen.navigationOptions = () => {
   return {
     headerTitle: `Edit Menu`,
   };

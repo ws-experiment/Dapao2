@@ -2,8 +2,8 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 import Card from "./commons/Card";
-import BoldText from "./commons/BoldText";
-import RegText from "./commons/RegText";
+import TextBold from "./commons/TextBold";
+import TextReg from "./commons/TextReg";
 import { Ionicons } from "@expo/vector-icons";
 
 const UserItem = (props) => {
@@ -11,16 +11,16 @@ const UserItem = (props) => {
     <TouchableOpacity onPress={props.onSelectItem}>
       <Card style={styles.container}>
         <View style={styles.nameContainer}>
-          <RegText numberOfLines={1} style={styles.name}>
+          <TextReg numberOfLines={1} style={styles.name}>
             {props.name}
-          </RegText>
+          </TextReg>
         </View>
         <View style={styles.activeContainer}>
-          <RegText
+          <TextReg
             style={props.status == "Active" ? styles.greenText : styles.redText}
           >
             {props.status}
-          </RegText>
+          </TextReg>
         </View>
 
         <View style={styles.balanceContainer}>
@@ -30,9 +30,9 @@ const UserItem = (props) => {
             size={26}
             style={{ marginRight: 10 }}
           />
-          <BoldText styles={styles.balance}>
+          <TextBold styles={styles.balance}>
             {props.balance.toFixed(2)}
-          </BoldText>
+          </TextBold>
         </View>
       </Card>
     </TouchableOpacity>

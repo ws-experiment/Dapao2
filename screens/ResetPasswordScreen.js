@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   View,
   AsyncStorage,
+  KeyboardAvoidingView
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -15,11 +16,10 @@ import {
   FORM_INPUT_UPDATE,
   FORM_RESET,
 } from "../stores/reducers/common/FormReducer";
-import { KeyboardAvoidingView } from "react-native";
 import Card from "../components/commons/Card";
 import Input from "../components/commons/Input";
 import ToggleMenuButton from "../components/commons/headerButtons/ToggleMenuButton";
-import ClearButton from "../components/commons/ClearButton";
+import ButtonClear from "../components/commons/buttons/ButtonClear";
 import Colors from "../constants/Colors";
 import * as authActions from "../stores/actions/AuthAction";
 
@@ -137,7 +137,7 @@ const ResetPasswordScreen = (props) => {
         {isLoading ? (
           <ActivityIndicator size="small" />
         ) : (
-          <ClearButton
+          <ButtonClear
             title="Save"
             color={Colors.primary}
             disabled={formState.formIsValid ? false : true}

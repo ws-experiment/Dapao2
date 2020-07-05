@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, ScrollView, Image, Button } from "react-native";
-import RegText from "../../components/commons/RegText";
+import TextReg from "../../components/commons/TextReg";
 import Colors from "../../constants/Colors";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -27,8 +27,8 @@ const MenuDetailsScreen = (props) => {
         title="Add to Carts"
         onPress={() => selectHandler(menuItem)}
       />
-      <RegText style={styles.price}>RM {menuItem.price.toFixed(2)}</RegText>
-      <RegText style={styles.description}>{menuItem.description}</RegText>
+      <TextReg style={styles.price}>RM {menuItem.price.toFixed(2)}</TextReg>
+      <TextReg style={styles.description}>{menuItem.description}</TextReg>
     </ScrollView>
   );
 };

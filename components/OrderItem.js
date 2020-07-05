@@ -4,8 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
 import Card from "./commons/Card";
-import BoldText from "./commons/BoldText";
-import RegText from "./commons/RegText";
+import TextBold from "./commons/TextBold";
+import TextReg from "./commons/TextReg";
 import Colors from "../constants/Colors";
 import CartItem from "./CartItem";
 
@@ -23,7 +23,7 @@ const OrderItem = (props) => {
               color={Colors.accent}
               style={{ marginRight: 10 }}
             />
-            <RegText style={styles.userNameText}>{props.name} </RegText>
+            <TextReg style={styles.userNameText}>{props.name} </TextReg>
           </View>
         )}
         <View style={styles.item}>
@@ -40,10 +40,10 @@ const OrderItem = (props) => {
         <View
           style={sameDate ? styles.todaySummaryDetails : styles.summaryDetails}
         >
-          <RegText style={styles.dateTimeText}>{props.date}</RegText>
-          <BoldText style={styles.totalPriceText}>
+          <TextReg style={styles.dateTimeText}>{props.date}</TextReg>
+          <TextBold style={styles.totalPriceText}>
             Total RM {props.totalPrice.toFixed(2)}
-          </BoldText>
+          </TextBold>
         </View>
       </View>
     </Card>

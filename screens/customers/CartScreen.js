@@ -13,10 +13,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 
 import Card from "../../components/commons/Card";
-import RegText from "../../components/commons/RegText";
-import BoldText from "../../components/commons/BoldText";
+import TextReg from "../../components/commons/TextReg";
+import TextBold from "../../components/commons/TextBold";
 import Colors from "../../constants/Colors";
-import BorderlessButton from "../../components/commons/BorderlessButton";
+import ButtonOrderNow from "../../components/commons/buttons/ButtonOrderNow";
 import CartItem from "../../components/CartItem";
 
 import * as cartActions from "../../stores/actions/CartAction";
@@ -84,9 +84,9 @@ const CartScreen = (props) => {
   return (
     <View style={styles.screen}>
       <Card style={styles.cardContainer}>
-        <RegText style={styles.total}>Total: </RegText>
-        <BoldText style={styles.price}>RM {totalPrice.toFixed(2)}</BoldText>
-        <BorderlessButton
+        <TextReg style={styles.total}>Total: </TextReg>
+        <TextBold style={styles.price}>RM {totalPrice.toFixed(2)}</TextBold>
+        <ButtonOrderNow
           title="ORDER NOW"
           disabled={cartItems.length === 0}
           onPress={sendOrderHandler}
@@ -109,7 +109,7 @@ const CartScreen = (props) => {
         />
       </View>
       <View style={styles.balanceContainer}>
-        <RegText style={styles.balanceTitle}>Remaining Balance</RegText>
+        <TextReg style={styles.balanceTitle}>Remaining Balance</TextReg>
         <Card style={styles.cardContainer}>
           <Ionicons
             name={Platform.OS === "android" ? "md-cash" : "ios-cash"}
@@ -117,9 +117,9 @@ const CartScreen = (props) => {
             size={26}
             style={{ marginLeft: 10 }}
           />
-          <BoldText style={styles.balance}>
+          <TextBold style={styles.balance}>
             RM {currentUser.balance.toFixed(2)}
-          </BoldText>
+          </TextBold>
         </Card>
       </View>
     </View>
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   },
   flatList: {
     height: "70%",
+    marginTop: 10
   },
   balanceContainer: {
     height: "100%",

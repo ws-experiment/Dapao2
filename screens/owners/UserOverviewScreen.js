@@ -20,7 +20,7 @@ import UserItem from "../../components/UserItem";
 import * as userAction from "../../stores/actions/UserAction";
 import defaultStyles from "../../constants/defaultStyles";
 import ToggleMenuButton from "../../components/commons/headerButtons/ToggleMenuButton";
-import RegText from "../../components/commons/RegText";
+import TextReg from "../../components/commons/TextReg";
 
 const UserOverviewScreen = (props) => {
   //#region states
@@ -37,8 +37,8 @@ const UserOverviewScreen = (props) => {
   }, [dispatch]);
 
   //any updates in database will update the list after come back from other screens
-  useLayoutEffect(() => {
-    const focusSub = props.navigation.addListener("didFocus", loadUsers);
+  useEffect(() => {
+    const focusSub = props.navigation.addListener("willFocus", loadUsers);
     return () => {
       focusSub.remove();
     };
@@ -59,9 +59,9 @@ const UserOverviewScreen = (props) => {
   if (!isLoading && users.length == 0) {
     return (
       <View style={styles.container}>
-        <RegText style={styles.noMenuText}>
+        <TextReg style={styles.noMenuText}>
           No User is Found. Try to Add Some!!
-        </RegText>
+        </TextReg>
         <Button
           style={styles.noButton}
           title="Add New User"

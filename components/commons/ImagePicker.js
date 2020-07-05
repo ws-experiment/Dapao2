@@ -59,7 +59,7 @@ const ImgPicker = (props) => {
     props.onImageTaken(image.uri);
   };
 
-  const buttons = null;
+  let buttons = null;
   if (!props.imageUrl) {
     buttons = (
       <View style={styles.buttonContainer}>

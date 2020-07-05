@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-
+import { NavigationActions, StackActions } from "react-navigation";
 import * as authActions from "../stores/actions/AuthAction";
 import * as userActions from "../stores/actions/UserAction";
 
@@ -27,7 +27,7 @@ const StartupScreen = (props) => {
       const userTypeDataContent = JSON.parse(userTypeData);
       const { password, userType } = userTypeDataContent;
       const expirationDate = new Date(expiryDate);
-    
+
       if (expirationDate <= new Date() || !token || !userId) {
         AsyncStorage.removeItem("userData");
         AsyncStorage.removeItem("userType");
@@ -39,9 +39,19 @@ const StartupScreen = (props) => {
       dispatch(userActions.setCurrentUserAtStartup(userId, password));
 
       if (userType === "Customer") {
-        props.navigation.navigate("Customer");
+        props.navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: "Customer" })],
+          })
+        );
       } else {
-        props.navigation.navigate("Owner");
+        props.navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: "Owner" })],
+          })
+        );
       }
     };
     tryLogin();

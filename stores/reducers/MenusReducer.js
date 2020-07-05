@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
         title: action.menuData.title,
         imageUrl: state.ownerMenuItems[index].imageUrl,
         description: action.menuData.description,
-        price: state.ownerMenuItems[index].price,
+        price: action.menuData.price,
       };
       //update owner menu items
       let updatedOwnerMenuItems = [...state.ownerMenuItems];

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Platform, Button, Alert } from "react-native";
 import Card from "../../components/commons/Card";
-import RegText from "../../components/commons/RegText";
-import BoldText from "../../components/commons/BoldText";
+import TextReg from "../../components/commons/TextReg";
+import TextBold from "../../components/commons/TextBold";
 
 import { Ionicons } from "@expo/vector-icons";
-import ClearButton from "../../components/commons/ClearButton";
+import ButtonClear from "../../components/commons/buttons/ButtonClear";
 import { useSelector, useDispatch } from "react-redux";
 import Colors from "../../constants/Colors";
 
@@ -33,7 +33,7 @@ const AddBalanceScreen = (props) => {
     <View style={styles.overall}>
       <View style={styles.container}>
         <Card style={styles.userBalanceContainer}>
-          <RegText style={styles.balanceText}>{user.name}'s balance</RegText>
+          <TextReg style={styles.balanceText}>{user.name}'s balance</TextReg>
           <View style={styles.balanceContainer}>
             <Ionicons
               name={Platform.OS === "android" ? "md-cash" : "ios-cash"}
@@ -41,32 +41,32 @@ const AddBalanceScreen = (props) => {
               size={26}
               style={{ marginRight: 10 }}
             />
-            <BoldText style={styles.balance}>
+            <TextBold style={styles.balance}>
               {user.balance.toFixed(2)}
-            </BoldText>
+            </TextBold>
           </View>
         </Card>
         <Card style={styles.reloadAmountContainer}>
           <View style={styles.amountContainer}>
-            <RegText style={styles.reloadAmountText}>
+            <TextReg style={styles.reloadAmountText}>
               Please Select Reload Amount : RM
-            </RegText>
-            <BoldText style={styles.reloadText}>{amount.toFixed(2)}</BoldText>
+            </TextReg>
+            <TextBold style={styles.reloadText}>{amount.toFixed(2)}</TextBold>
           </View>
           <View style={styles.buttonsContainer}>
-            <ClearButton
+            <ButtonClear
               title="10"
               onPress={() => {
                 setAmount(10);
               }}
             />
-            <ClearButton
+            <ButtonClear
               title="20"
               onPress={() => {
                 setAmount(20);
               }}
             />
-            <ClearButton
+            <ButtonClear
               title="50"
               onPress={() => {
                 setAmount(50);
@@ -74,7 +74,8 @@ const AddBalanceScreen = (props) => {
             />
           </View>
         </Card>
-        <ClearButton
+        <ButtonClear
+          safe
           title="Submit"
           color={Colors.primary}
           onPress={submitHandler}

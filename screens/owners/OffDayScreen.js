@@ -15,7 +15,7 @@ import DatePicker from "../../components/commons/DatePicker";
 import defaultStyles from "../../constants/defaultStyles";
 import * as offDayActions from "../../stores/actions/OffDayAction";
 import Colors from "../../constants/Colors";
-import ClearButton from "../../components/commons/ClearButton";
+import ButtonClear from "../../components/commons/buttons/ButtonClear";
 import ToggleMenuButton from "../../components/commons/headerButtons/ToggleMenuButton";
 
 const OffDayScreen = (props) => {
@@ -75,7 +75,7 @@ const OffDayScreen = (props) => {
     <View style={styles.container}>
       <DatePicker markedDates={dates} onDayPress={onDayPressHandler} />
       <View style={styles.saveContainer}>
-        <ClearButton title="Save" color={Colors.primary} onPress={submitHandler}/>
+        <ButtonClear safe title="Save" color={Colors.primary} onPress={submitHandler}/>
       </View>
     </View>
   );

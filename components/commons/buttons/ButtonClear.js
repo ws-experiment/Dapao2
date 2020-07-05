@@ -4,19 +4,22 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform,
+  TouchableWithoutFeedback,
 } from "react-native";
-import Colors from "../../constants/Colors";
+import Colors from "../../../constants/Colors";
+import Card from "../Card";
 
-const ClearButton = (props) => {
+const ButtonClear = (props) => {
   return (
     <TouchableOpacity disabled={props.disabled} onPress={props.onPress}>
-      <View
+      <Card
         style={
           props.disabled
             ? styles.disabledButton
             : props.danger
             ? styles.dangerButton
+            : props.safe 
+            ? styles.safeButton
             : styles.button
         }
       >
@@ -30,37 +33,43 @@ const ClearButton = (props) => {
               : styles.text,
           ]}
         >
-          {props.title ? props.title : props.children}
+          {props.title.toUpperCase()}
         </Text>
-      </View>
+      </Card>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#F7DCD7",
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: Colors.primary,
+    backgroundColor: Colors.primary,
     paddingVertical: 8,
     paddingHorizontal: 30,
     shadowColor: "black",
     shadowOpacity: 0.26,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+    elevation: 10
+  },
+  safeButton: {
+    backgroundColor: "#008000",
+    paddingVertical: 8,
+    paddingHorizontal: 30,
+    shadowColor: "black",
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 10,
   },
   dangerButton: {
-    backgroundColor: "#E14545",
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: Colors.primary,
+    backgroundColor: Colors.primary,
     paddingVertical: 8,
     paddingHorizontal: 30,
     shadowColor: "black",
     shadowOpacity: 0.26,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+    elevation: 10
   },
   disabledButton: {
     backgroundColor: "#fff",
@@ -76,7 +85,7 @@ const styles = StyleSheet.create({
   },
   text: {
     alignSelf: "center",
-    color: Colors.accent,
+    color: "white",
     fontSize: 18,
   },
   disabledText: {
@@ -86,9 +95,9 @@ const styles = StyleSheet.create({
   },
   dangerText: {
     alignSelf: "center",
-    color: "#F2CBCB",
+    color: "white",
     fontSize: 18,
   },
 });
 
-export default ClearButton;
+export default ButtonClear;

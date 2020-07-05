@@ -15,10 +15,10 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import * as menusAction from "../../stores/actions/MenusAction";
 import defaultStyles from "../../constants/defaultStyles";
 import Colors from "../../constants/Colors";
-import RegText from "../../components/commons/RegText";
+import TextReg from "../../components/commons/TextReg";
 import MenuItem from "../../components/MenuItem";
 import CustomHeaderButton from "../../components/commons/headerButtons/CustomHeaderButton";
-import ClearButton from "../../components/commons/ClearButton";
+import ButtonClear from "../../components/commons/buttons/ButtonClear";
 
 const OwnerMenuDetailsScreen = (props) => {
   //#region states
@@ -42,6 +42,14 @@ const OwnerMenuDetailsScreen = (props) => {
 
   useEffect(() => {
     loadOwnerProduct();
+  }, [loadOwnerProduct]);
+
+  //Called only after the event.
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener("willFocus", loadOwnerProduct);
+    return () => {
+      willFocusSub.remove();
+    };
   }, [loadOwnerProduct]);
 
   //#region handlers
@@ -74,9 +82,9 @@ const OwnerMenuDetailsScreen = (props) => {
   if (!isLoading && overallMenus.length == 0) {
     return (
       <View style={styles.container}>
-        <RegText style={styles.noMenuText}>
+        <TextReg style={styles.noMenuText}>
           No Menu is Found. Try to Add Some!!
-        </RegText>
+        </TextReg>
         <Button
           style={styles.noMenuButton}
           title="Add Menu"
@@ -98,16 +106,16 @@ const OwnerMenuDetailsScreen = (props) => {
           disabled={true}
         >
           <View style={styles.buttonContainer}>
-            <ClearButton
+            <ButtonClear
+              safe
               title="Edit"
               style={styles.editButton}
               onPress={() => {
                 editMenuHandler(itemData.item.id);
               }}
             />
-            <ClearButton
+            <ButtonClear
               title="Delete"
-              danger
               style={styles.deleteButton}
               onPress={() => {
                 deleteMenuHandler(itemData.item.id, itemData.item.title);

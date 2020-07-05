@@ -1,23 +1,44 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
+import Colors from '../constants/Colors';
 import Card from "./commons/Card";
-import BoldText from "./commons/BoldText";
-import RegText from "./commons/RegText";
+import TextBold from "./commons/TextBold";
+import TextReg from "./commons/TextReg";
 
 const MenuItem = (props) => {
+  const [loading, setLoading] = useState(false);
   return (
     <Card style={styles.card}>
-      <TouchableOpacity disabled={props.disabled} style={styles.touchable} onPress={props.onPress}>
+      <TouchableOpacity
+        disabled={props.disabled}
+        style={styles.touchable}
+        onPress={props.onPress}
+      >
         <View>
-          <Image source={{ uri: props.imageSource }} style={styles.image} />
+          <View style={styles.imgLoadingContainer}>
+          <Image
+            source={{ uri: props.imageSource }}
+            style={styles.image}
+            onLoadStart={() => setLoading(true)}
+            onLoadEnd={() => setLoading(false)}
+          />
+          {loading && <ActivityIndicator size="small" color={Colors.primary} />}
+          </View>
           <View style={styles.details}>
             <View style={styles.detailTitleContainer}>
-              <BoldText numberOfLines={1} style={styles.detailTitle}>{props.title}</BoldText>
+              <TextBold numberOfLines={1} style={styles.detailTitle}>
+                {props.title}
+              </TextBold>
             </View>
-            <RegText style={styles.detailPrice}>
+            <TextReg style={styles.detailPrice}>
               RM {props.price.toFixed(2)}
-            </RegText>
+            </TextReg>
           </View>
           {props.children}
         </View>
@@ -35,9 +56,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: "hidden",
   },
-  image: {
+  imgLoadingContainer: {
+    justifyContent: "center",
     width: "100%",
     height: "65%",
+  },  
+  image: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
   },
   details: {
     height: "20%",

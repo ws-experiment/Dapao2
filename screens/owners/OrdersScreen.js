@@ -51,11 +51,11 @@ const OrdersScreen = (props) => {
   }, [dispatch, loadOrders]);
 
   //Exit Apps
-  useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", backPressed);
-    return () =>
-      BackHandler.removeEventListener("hardwareBackPress", backPressed);
-  }, []);
+  // useEffect(() => {
+  //   BackHandler.addEventListener("hardwareBackPress", backPressed);
+  //   return () =>
+  //     BackHandler.removeEventListener("hardwareBackPress", backPressed);
+  // }, []);
 
   if (isLoading) {
     return (

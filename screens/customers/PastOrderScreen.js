@@ -46,6 +46,7 @@ const PastOrderScreen = (props) => {
 
 const styles = StyleSheet.create({
   overall: {
+    flex: 1,
     marginTop: 15,
   },
 });

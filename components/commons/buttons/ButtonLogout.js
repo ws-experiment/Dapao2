@@ -1,19 +1,14 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
-  Platform,
-  Button,
 } from "react-native";
-import Colors from "../../constants/Colors";
-import ClearButton from "./ClearButton";
+import ButtonClear from "../buttons/ButtonClear";
 
-const LogoutButton = (props) => {
+const ButtonLogout = (props) => {
   return (
     <View style={styles.button}>
-      <ClearButton title="Log Out" danger onPress={props.onPress} />
+      <ButtonClear title="Log Out" danger onPress={props.onPress} />
     </View>
   );
 };
@@ -25,4 +20,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogoutButton;
+export default ButtonLogout;

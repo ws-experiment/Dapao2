@@ -3,7 +3,7 @@ import { Platform, SafeAreaView, View } from "react-native";
 import {
   createAppContainer,
   NavigationActions,
-  StackActions
+  StackActions,
 } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import {
@@ -16,7 +16,7 @@ import * as authActions from "../stores/actions/AuthAction";
 
 import NavigationOptions from "../navigation/NavigationOptions";
 import Colors from "../constants/Colors";
-import LogoutButton from "../components/commons/LogoutButton";
+import ButtonLogout from "../components/commons/buttons/ButtonLogout";
 
 //Commons
 import StartupScreen from "../screens/StartupScreen";
@@ -115,7 +115,7 @@ const CustomerDrawer = createDrawerNavigator(
         <View style={{ flex: 1, paddingTop: 20 }}>
           <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
             <DrawerNavigatorItems {...props} />
-            <LogoutButton
+            <ButtonLogout
               onPress={() => {
                 dispatch(authActions.logout());
                 props.navigation.dispatch(
@@ -250,7 +250,7 @@ const OwnerDrawer = createDrawerNavigator(
         <View style={{ flex: 1, paddingTop: 20 }}>
           <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
             <DrawerNavigatorItems {...props} />
-            <LogoutButton
+            <ButtonLogout
               onPress={() => {
                 dispatch(authActions.logout());
                 props.navigation.dispatch(
@@ -279,8 +279,13 @@ const AuthStack = createStackNavigator(
   { defaultNavigationOptions: NavigationOptions }
 );
 
+const StartupStack = createStackNavigator({ Startup: StartupScreen });
+
 const MainStack = createStackNavigator({
-  Startup: StartupScreen,
+  Startup: {
+    screen: StartupStack,
+    navigationOptions: { headerShown: false, gestureEnabled: false },
+  },
   Auth: {
     screen: AuthStack,
     navigationOptions: { headerShown: false, gestureEnabled: false },

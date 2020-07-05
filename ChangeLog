@@ -1,3 +1,9 @@
+05/07/2020
+1. Disable Submit button in add new menu
+2. Edit Menu - Enable to Edit Price
+3. Loading indicator on image in MenuItem.
+4. Bug Fixed, Android navigated to login screen after pressed back
+
 07/06/2020
 1. Added keyboardShouldPersisTaps in EditMenuScreen.
 2. Added backPressed function in utils.
