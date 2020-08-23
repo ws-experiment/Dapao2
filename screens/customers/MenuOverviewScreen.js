@@ -91,7 +91,7 @@ const MenuOverviewScreen = (props) => {
         <TextReg>Sorry, Order is not available for the day.</TextReg>
       </View>
     );
-  } else if (new Date() > moment("23:59:00", "hh:mm:ss")) {
+  } else if (new Date() > moment("10:00:00", "hh:mm:ss")) {
     return (
       <View style={defaultStyles.centeredContainer}>
         <View style={{ alignItems: "center" }}>
